@@ -1,5 +1,5 @@
 require 'sinatra/base'
-require 'sinatra/reloader'
+# require 'sinatra/reloader' 
 require 'sinatra/param'
 require 'sinatra/cross_origin'
 require 'mysql2-cs-bind'
@@ -29,9 +29,9 @@ class Bookshelf < Sinatra::Application
 
   url = ENV['APP_ENV']
   if url.nil?
-    url = ’http://localhost:4567’
+    url = 'http://localhost:4567'
   end
-  UPLOARD_DIRECTORY = url + '/uploads/'
+  UPLOARD_DIRECTORY = File.dirname(__FILE__) + '/uploads/'
 
   # configure :production do
   # end
@@ -82,8 +82,12 @@ class Bookshelf < Sinatra::Application
     # 'hello'
     # File.read('index.html')
     # send_file 'index.html'
-    redirect '/index.html'
-    # send_file File.join(settings.public_folder, 'index.html')
+    # redirect '/index.html'
+    send_file File.join(settings.public_folder, 'index.html')
+  end
+
+  get '/:file' do
+    send_file File.join(settings.public_folder, params[:file])
   end
 
   get '/api/books/' do
