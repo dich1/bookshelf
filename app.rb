@@ -27,10 +27,13 @@ class Bookshelf < Sinatra::Application
   READING  = "1"
   FINISHED = "2"
 
-  UPLOARD_DIRECTORY = '/Users/daichi/PJ/bookshelf-api-server/uploads/'
+  url = ENV['APP_ENV']
+  if url.nil?
+    url = ’http://localhost:4567’
+  end
+  UPLOARD_DIRECTORY = url + '/uploads/'
 
   # configure :production do
-    
   # end
 
   # configure :development do
@@ -42,8 +45,8 @@ class Bookshelf < Sinatra::Application
     set :allow_methods, [:get, :post, :options, :put, :delete]
     set :public_folder, 'public'
 
-    dburl = ENV['CLEARDB_DATABASE_URL']
-    set :mysql_config, if dburl.nil?
+    db_url = ENV['CLEARDB_DATABASE_URL']
+    set :mysql_config, if db_url.nil?
         YAML.load_file('database.yml')  
     else
         require 'uri'
