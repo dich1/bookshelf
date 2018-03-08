@@ -29,17 +29,19 @@ class Bookshelf < Sinatra::Application
 
   UPLOARD_DIRECTORY = '/Users/daichi/PJ/bookshelf-api-server/uploads/'
 
-  configure :production do
+  # configure :production do
     
-  end
+  # end
 
-  configure :development do
+  # configure :development do
+  # end
+  
+  configure do
     enable :cross_origin
     register Sinatra::CrossOrigin
     set :allow_methods, [:get, :post, :options, :put, :delete]
-  end
-  
-  configure do
+    set :public_folder, 'public'
+
     dburl = ENV['CLEARDB_DATABASE_URL']
     set :mysql_config, if dburl.nil?
         YAML.load_file('database.yml')  
@@ -71,6 +73,14 @@ class Bookshelf < Sinatra::Application
     response.headers["Access-Control-Allow-Methods"] = "HEAD,GET,PUT,POST,DELETE,OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
     "ok"
+  end
+
+  get '/' do
+    # 'hello'
+    # File.read('index.html')
+    # send_file 'index.html'
+    redirect '/index.html'
+    # send_file File.join(settings.public_folder, 'index.html')
   end
 
   get '/api/books/' do

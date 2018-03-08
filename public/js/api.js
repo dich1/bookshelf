@@ -1,5 +1,11 @@
 var API = (function() {
-    var baseUrl = 'http://localhost:4567/api/';
+    var protocol = location.protocol;
+    var host     = location.hostname ;
+    var port     = location.port;
+    var apiPath = (port === '4567') ? ':4567/api/'   : '/api/';
+
+    var baseUrl  = protocol + '//' + host + apiPath;
+
 
     function getBooks() {
         return $.ajax({

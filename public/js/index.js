@@ -1,4 +1,8 @@
-var imageBasePath = 'file:///Users/daichi/PJ/bookshelf-api-server/uploads/';
+var protocol = location.protocol;
+var host     = location.hostname ;
+var port     = (location.port === '4567') ? ':4567/': '/';
+
+var imageBasePath = protocol + '//' + host + port + 'uploads/';
 
 window.addEventListener('load', function() {
     getBooks();
@@ -41,7 +45,7 @@ function getBooks() {
                             + '</form>'
                             + '<form name="delete_book" action="">'
                             + '<div class="book_delete">'
-                            + '<input type="button" name="submit_book_delete" value="削除する" onclick="deleteBook(this);"><img src="../public/images/icon_trash.png" alt="icon trash"></div>'
+                            + '<input type="button" name="submit_book_delete" value="削除する" onclick="deleteBook(this);"><img src="./images/icon_trash.png" alt="icon trash"></div>'
                             + '</form>'
                             + '</div></div>';
 
