@@ -38,10 +38,29 @@ class Bookshelf < Sinatra::Application
     register Sinatra::CrossOrigin
     set :allow_methods, [:get, :post, :options, :put, :delete]
   end
+  
+  configure do
+    dburl = ENV['CLEARDB_DATABASE_URL']
+    set :mysql_config, if dburl.nil?
+        YAML.load_file('database.yml')  
+    else
+        require 'uri'
+        uri = URI.parse(dbconfig['url'])
+        ui = uri.userinfo.split(':')
+        { 
+          'host' => uri.host,
+          'port' => uri.port || 3306,
+          'database' => uri.path[1..-1],
+          'username' => ui.first,
+          'password' => ui.last,
+          'reconnect' => true
+        }
+    end
+  end
 
   before do
     cross_origin
-    @client = Mysql2::Client.new(YAML.load_file('database.yml'))
+    @client = Mysql2::Client.new(settings.mysql_config)
     # @client = Mysql2::Client.new(YAML.load_file('database.yml'))[:development]
     @ary = Array.new
     @hash = Hash.new { |h, k| h[k] = [] }
