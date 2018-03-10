@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'sinatra/base'
 # require 'sinatra/reloader' 
 require 'sinatra/param'
@@ -79,15 +80,7 @@ class Bookshelf < Sinatra::Application
   end
 
   get '/' do
-    # 'hello'
-    # File.read('index.html')
-    # send_file 'index.html'
-    # redirect '/index.html'
-    send_file File.join(settings.public_folder, 'index.html')
-  end
-
-  get '/:file' do
-    send_file File.join(settings.public_folder, params[:file])
+    redirect to('index.html')
   end
 
   get '/api/books/' do
