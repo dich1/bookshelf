@@ -3,8 +3,12 @@ var API = (function() {
     var host     = location.hostname ;
     var port     = location.port;
     var apiPath = (port === '4567') ? ':4567/api/'   : '/api/';
-
-    var baseUrl  = protocol + '//' + host + apiPath;
+    var baseUrl;
+    if (protocol == 'file:') {
+        baseUrl = 'http://localhost:4567/api/';
+    } else {
+        baseUrl  = protocol + '//' + host + apiPath;
+    }
 
 
     function getBooks() {

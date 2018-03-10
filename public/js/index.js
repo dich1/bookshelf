@@ -2,7 +2,12 @@ var protocol = location.protocol;
 var host     = location.hostname ;
 var port     = (location.port === '4567') ? ':4567/': '/';
 
-var imageBasePath = protocol + '//' + host + port + 'uploads/';
+var imageBasePath;
+if (protocol == 'file:') {
+    imageBasePath = 'file:///Users/daichi/PJ/bookshelf/uploads/';
+} else {
+    imageBasePath = protocol + '//' + host + port + 'uploads/';
+}
 
 window.addEventListener('load', function() {
     getBooks();
