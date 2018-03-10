@@ -50,7 +50,7 @@ class Bookshelf < Sinatra::Application
         YAML.load_file('database.yml')  
     else
         require 'uri'
-        uri = URI.parse(dbconfig['url'])
+        uri = URI.parse(db_url)
         ui = uri.userinfo.split(':')
         { 
           'host' => uri.host,
