@@ -1,22 +1,35 @@
 require 'rubygems'
 require 'sinatra/base'
-# require 'sinatra/reloader' 
 require 'sinatra/param'
 require 'sinatra/cross_origin'
 require 'mysql2-cs-bind'
 require 'json'
 require 'yaml'
 require 'carrierwave'
+require 'carrierwave/storage/fog'
 require 'fileutils'
 
 class ImageUploader < CarrierWave::Uploader::Base
   permissions 0666
   directory_permissions 0777
-  storage :file
+  storage :fog
 
   def extension_whitelist
     %w(jpg jpeg gif png)
   end
+end
+
+CarrierWave.configure do |config|
+  config.storage = :fog
+  config.fog_provider = 'fog/aws'
+  config.fog_credentials = {
+    provider:              'AWS',
+    aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
+    aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+    region:                'ap-northeast-1'
+  }
+  config.fog_directory  = ENV['S3_BUCKET_NAME']
+  config.fog_public = true
 end
 
 class Bookshelf < Sinatra::Application

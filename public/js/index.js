@@ -1,13 +1,4 @@
-var protocol = location.protocol;
-var host     = location.hostname ;
-var port     = (location.port === '4567') ? ':4567/': '/';
-
-var imageBasePath;
-if (protocol == 'file:') {
-    imageBasePath = 'file:///Users/daichi/PJ/bookshelf/uploads/';
-} else {
-    imageBasePath = protocol + '//' + host + port + 'uploads/';
-}
+var imageBasePath = 'https://s3-ap-northeast-1.amazonaws.com/bookshelf-image/uploads/';
 
 window.addEventListener('load', function() {
     getBooks();
