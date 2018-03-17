@@ -12,6 +12,7 @@ gem "json"
 gem "sinatra-cross_origin"
 gem "carrierwave"
 gem "fog-aws"
+gem "aws-sdk"
 
 #git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 

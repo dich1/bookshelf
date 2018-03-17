@@ -6,6 +6,7 @@ require 'json'
 require 'yaml'
 require 'carrierwave'
 require 'carrierwave/storage/fog'
+require 'aws-sdk'
 require 'fileutils'
 
 class ImageUploader < CarrierWave::Uploader::Base
@@ -23,11 +24,14 @@ CarrierWave.configure do |config|
   config.fog_provider = 'fog/aws'
   config.fog_credentials = {
     provider:              'AWS',
-    aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
-    aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+    # aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
+    aws_access_key_id:     'AKIAJXIAD4C3P3DQRY4Q',
+    # aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+    aws_secret_access_key: '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',
     region:                'ap-northeast-1'
   }
-  config.fog_directory  = ENV['S3_BUCKET_NAME']
+  # config.fog_directory  = ENV['S3_BUCKET_NAME']
+  config.fog_directory  = 'bookshelf-image'
   config.fog_public = true
 end
 
@@ -44,7 +48,6 @@ class Bookshelf < Sinatra::Application
   if url.nil?
     url = 'http://localhost:4567'
   end
-  UPLOARD_DIRECTORY = File.dirname(__FILE__) + '/uploads/'
 
   # configure :production do
   # end
@@ -244,14 +247,16 @@ class Bookshelf < Sinatra::Application
   end
 
   def delete_book
-    uploader = ImageUploader.new
+    bucket = Aws::S3::Resource.new(
+        :region            => 'ap-northeast-1',
+        :access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
+        :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    ).bucket(ENV['S3_BUCKET_NAME'])
+
     target_book = get_book
-    target_file = ''
-    if !target_book['image'].nil?
-      target_file = UPLOARD_DIRECTORY.concat(target_book['image'])
-    end
-    if File.file?(target_file)
-      FileUtils.rm(target_file)
+
+    if bucket.object('uploads/' + target_book['image']).exists?
+      bucket.object('uploads/' + target_book['image']).delete
     end
     
     sql = "DELETE 
