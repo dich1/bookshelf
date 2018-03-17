@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'sinatra/base'
 require 'sinatra/param'
 require 'sinatra/cross_origin'
