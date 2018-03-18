@@ -17,6 +17,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   def extension_whitelist
     %w(jpg jpeg gif png)
   end
+
+  def filename
+   "#{SecureRandom.uuid}.#{file.extension}" if original_filename.present?
+  end
 end
 
 CarrierWave.configure do |config|
