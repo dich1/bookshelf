@@ -12,10 +12,10 @@ function registerBook(button) {
 
     var registerBook = API.registerBook(request);
     registerBook.done(function(data){
-        console.log(registerBook.status);
+        console.log('本登録API：' + registerBook.status);
     }).fail(function(error) {
-        console.log(registerBook.status);
-        console.log(error);
+        console.log('本登録API：' + registerBook.status);
+        console.log('本登録API：' + error);
     });
     location.href = './index.html' + '?' + (new Date()).getTime();
 }

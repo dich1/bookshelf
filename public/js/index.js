@@ -1,8 +1,25 @@
-var imageBasePath = 'https://s3-ap-northeast-1.amazonaws.com/bookshelf-image/uploads/';
+function retryable(retryCount, func) {
+  let promise = Promise.reject().catch(() => func());
+  for (let i = 0; i < retryCount; i++) {
+    promise = promise.catch(err => func());
+  }
+  return promise;
+}
 
 window.addEventListener('load', function() {
-    getBooks();
-    getStatusCount();
+    setTimeout(function(){
+        retryable(3, () => { 
+            getBooks();
+        }).catch(err => {
+            alert('本一覧取得リクエスト失敗');
+         });
+        
+        retryable(3, () => { 
+            getStatusCount();
+        }).catch(err => {
+            alert('本ステータス取得リクエスト失敗');
+        });
+    }, 500);
 });
 
 function getStatusCount() {
@@ -15,55 +32,64 @@ function getBooks() {
     var getBooks = API.getBooks();
     var books;
     getBooks.done(function(data){
-        console.log(getBooks.status);
+        console.log('本一覧取得API：' + getBooks.status);
         books = data.books;
     }).fail(function(error) {
-        console.log(getBooks.status);
-        console.log(error);
+        console.log('本一覧取得API：' + getBooks.status);
+        console.log('本一覧取得API：' + error);
     });
     console.log(books);
+    
+    displayBooks(books);
+}
+
+function displayBooks(books) {
     var bookListElement = '';
-    books.forEach(function (book) {
-        var id     = book.id;
-        var title  = book.title;
-        var image  = imageBasePath + book.image;
-        var status = book.status;
-        var unread   = (status === '0') ? 'unread active'   : 'unread';
-        var reading  = (status === '1') ? 'reading active'  : 'reading';
-        var finished = (status === '2') ? 'finished active' : 'finished';
+    var imageBasePath = 'https://s3-ap-northeast-1.amazonaws.com/bookshelf-image/uploads/';
+    if (books.length > 0) {
+        books.forEach(function (book) {
+            var id     = book.id;
+            var title  = book.title;
+            var image  = imageBasePath + book.image;
+            var status = book.status;
+            var unread   = (status === '0') ? 'unread active'   : 'unread';
+            var reading  = (status === '1') ? 'reading active'  : 'reading';
+            var finished = (status === '2') ? 'finished active' : 'finished';
 
-        var bookItemElement = '<div id="' + id + '" class="book_item"><div class="book_image"><img src="' + image + '" alt=""></div>'
-                            + '<div class="book_detail"><div class="book_title">' + title + '</div>'
-                            + '<form name="update_status" action="">' 
-                            + '<div class="book_status ' + unread + '"><input type="button" name="book_unread" value="未読" onclick="updateBookUnread(this);"></div>'
-                            + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="読書中" onclick="updateBookReading(this);"></div>'
-                            + '<div class="book_status ' + finished + '"><input type="button" name="book_finished" value="既読" onclick="updateBookFinished(this);"></div>'
-                            + '</form>'
-                            + '<form name="delete_book" action="">'
-                            + '<div class="book_delete">'
-                            + '<input type="button" name="submit_book_delete" value="削除する" onclick="deleteBook(this);"><img src="./images/icon_trash.png" alt="icon trash"></div>'
-                            + '</form>'
-                            + '</div></div>';
+            var bookItemElement = '<div id="' + id + '" class="book_item"><div class="book_image"><img src="' + image + '" alt=""></div>'
+                                + '<div class="book_detail"><div class="book_title">' + title + '</div>'
+                                + '<form name="update_status" action="">' 
+                                + '<div class="book_status ' + unread + '"><input type="button" name="book_unread" value="未読" onclick="updateBookUnread(this);"></div>'
+                                + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="読書中" onclick="updateBookReading(this);"></div>'
+                                + '<div class="book_status ' + finished + '"><input type="button" name="book_finished" value="既読" onclick="updateBookFinished(this);"></div>'
+                                + '</form>'
+                                + '<form name="delete_book" action="">'
+                                + '<div class="book_delete">'
+                                + '<input type="button" name="submit_book_delete" value="削除する" onclick="deleteBook(this);"><img src="./images/icon_trash.png" alt="icon trash"></div>'
+                                + '</form>'
+                                + '</div></div>';
 
-        bookListElement += bookItemElement;
-    });
-
+            bookListElement += bookItemElement;
+        });
+    } else {
+        bookListElement = '<h1 id="no_books" >本ありません</h1>'
+    }
+    
     var bookList = document.getElementById('book_list');
     bookList.textContent = null;
     console.log(bookList);
     bookList.insertAdjacentHTML('afterbegin', bookListElement);
-
 }
 
 function getBooksCountUnread() {
     var getBooksCountUnread = API.getBooksCountUnread();
     var count;
     getBooksCountUnread.done(function(data){
-        console.log(getBooksCountUnread.status);
+        console.log('未読数取得API：' + getBooksCountUnread.status);
         count = data.count;
         document.getElementById('books_unread').textContent = count;
     }).fail(function(error) {
-        console.log(getBooksCountUnread.status);
+        console.log('未読数取得API：' + getBooksCountUnread.status);
         console.log(error);
     });
 }
@@ -72,12 +98,12 @@ function getBooksCountReading() {
     var getBooksCountReading = API.getBooksCountReading();
     var count;
     getBooksCountReading.done(function(data){
-        console.log(getBooksCountReading.status);
+        console.log('読書中取得API：' + getBooksCountReading.status);
         count = data.count;
         document.getElementById('books_reading').textContent = count;
     }).fail(function(error) {
-        console.log(getBooksCountReading.status);
-        console.log(error);
+        console.log('読書中取得API：' + getBooksCountReading.status);
+        console.log('読書中取得API：' + error);
     });
 }
 
@@ -85,12 +111,12 @@ function getBooksCountFinished() {
     var getBooksCountFinished = API.getBooksCountFinished();
     var count;
     getBooksCountFinished.done(function(data){
-        console.log(getBooksCountFinished.status);
+        console.log('既読数取得API：' + getBooksCountFinished.status);
         count = data.count;
         document.getElementById('books_finished').textContent = count;
     }).fail(function(error) {
-        console.log(getBooksCountFinished.status);
-        console.log(error);
+        console.log('既読数取得API：' + getBooksCountFinished.status);
+        console.log('既読数取得API：' + error);
     });
 }
 
@@ -105,10 +131,10 @@ function updateBookUnread(button) {
     updateBookUnread.done(function(data){
         getBooks();
         getStatusCount();
-        console.log(updateBookUnread.status);
+        console.log('未読更新API：' + updateBookUnread.status);
     }).fail(function(error) {
-        console.log(updateBookUnread.status);
-        console.log(error);
+        console.log('未読更新API：' + updateBookUnread.status);
+        console.log('未読更新API：' + error);
     });
 }
 
@@ -123,9 +149,9 @@ function updateBookReading(button) {
     updateBookReading.done(function(data){
         getBooks();
         getStatusCount();
-        console.log(updateBookReading.status);
+        console.log('読書中更新API：' + updateBookReading.status);
     }).fail(function(error) {
-        console.log(updateBookReading.status);
+        console.log('読書中更新API：' + updateBookReading.status);
         console.log(error);
     });    
 }
@@ -141,10 +167,10 @@ function updateBookFinished(button) {
     updateBookFinished.done(function(data){
         getBooks();
         getStatusCount();
-        console.log(updateBookFinished.status);
+        console.log('既読更新API：' + updateBookFinished.status);
     }).fail(function(error) {
-        console.log(updateBookFinished.status);
-        console.log(error);
+        console.log('既読更新API：' + updateBookFinished.status);
+        console.log('既読更新API：' + error);
     });    
 }
 
@@ -155,11 +181,13 @@ function deleteBook(button) {
     };
     var deleteBook = API.deleteBook(request);
     deleteBook.done(function(data){
-        console.log(deleteBook.status);
-        bookItem = document.getElementById(id);
-        bookItem.parentNode.removeChild(bookItem);
+        console.log('本削除API：' + deleteBook.status);
+        // bookItem = document.getElementById(id);
+        // bookItem.parentNode.removeChild(bookItem);
+        getBooks();
+        getStatusCount();
     }).fail(function(error) {
-        console.log(deleteBook.status);
-        console.log(error);
+        console.log('本削除API：' + deleteBook.status);
+        console.log('本削除API：' + error);
     });
 }

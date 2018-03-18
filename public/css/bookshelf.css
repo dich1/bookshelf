@@ -124,6 +124,11 @@ header nav a {
   margin: 0 auto;
 }
 
+/* 書籍0件 */
+#no_books{
+  text-align: center;
+  color: #782F17;
+}
 /* 書籍一覧*/
 #book_list {
   margin: 20px auto;
@@ -169,7 +174,8 @@ header nav a {
   margin: 0 auto;
   height: 50px;
   text-align: center;
-  overflow: hidden;  
+  overflow: hidden;
+  color: #E7B776;  
 }
 /* 書籍情報ステータスボタンエリア */
 .book_item .book_detail form {
