@@ -9,6 +9,8 @@ require 'carrierwave/storage/fog'
 require 'aws-sdk'
 require 'fileutils'
 
+$filename
+
 class ImageUploader < CarrierWave::Uploader::Base
   permissions 0666
   directory_permissions 0777
