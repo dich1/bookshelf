@@ -135,6 +135,7 @@ function updateBookUnread(button) {
     }).fail(function(error) {
         console.log('未読更新API：' + updateBookUnread.status);
         console.log('未読更新API：' + error);
+        alert('リクエスト失敗したのでもう一回お願いします。');
     });
 }
 
@@ -153,6 +154,7 @@ function updateBookReading(button) {
     }).fail(function(error) {
         console.log('読書中更新API：' + updateBookReading.status);
         console.log(error);
+        alert('リクエスト失敗したのでもう一回お願いします。');
     });    
 }
 
@@ -171,6 +173,7 @@ function updateBookFinished(button) {
     }).fail(function(error) {
         console.log('既読更新API：' + updateBookFinished.status);
         console.log('既読更新API：' + error);
+        alert('リクエスト失敗したのでもう一回お願いします。');
     });    
 }
 
