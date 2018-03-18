@@ -17,7 +17,7 @@ function registerBook(button) {
         console.log(registerBook.status);
         console.log(error);
     });
-    location.href = './index.html';
+    location.href = './index.html' + '?' + (new Date()).getTime();
 }
 
 function updateBook(button) {
