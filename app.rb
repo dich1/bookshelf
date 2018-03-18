@@ -19,7 +19,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-   "#{SecureRandom.uuid}.#{file.extension}" if original_filename.present?
+    $filename = "#{SecureRandom.uuid}.#{file.extension}" if original_filename.present?
   end
 end
 
@@ -209,7 +209,7 @@ class Bookshelf < Sinatra::Application
              (title, image, status)
            VALUES 
              (?, ?, ?)"
-    @client.xquery(sql, params[:title], params[:image][:filename], params[:status])
+    @client.xquery(sql, params[:title], $filename, params[:status])
     return 
   end
 
