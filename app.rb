@@ -91,6 +91,10 @@ class Bookshelf < Sinatra::Application
     content_type :json
   end
 
+  after do
+    @client.close
+  end
+
   options "*" do
     response.headers["Access-Control-Allow-Methods"] = "HEAD,GET,PUT,POST,DELETE,OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
