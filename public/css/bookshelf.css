@@ -243,3 +243,24 @@ footer {
   cursor: pointer;
   background-color: #1ca40a;
 }
+
+/* datepickerトリガー指定 */
+img.ui-datepicker-trigger{
+  cursor: pointer;
+  margin-left: 7px!important;
+  vertical-align: middle;
+}
+
+/* 返却日 */
+.datepicker{
+  text-align: center;
+  background-color:transparent;
+  border: none;
+  margin-bottom: 5px;
+  font-size: 20px;
+  color: #E7B776;
+}
+.form_datepicker{
+  float: right;
+  padding-right: 3%;
+}

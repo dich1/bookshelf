@@ -108,6 +108,17 @@ var API = (function() {
         });
     }
 
+    function updateReturnDate(request) {
+            return $.ajax({
+            type    : 'PUT',
+            url     : baseUrl + '/book/return-date/',
+            dataType: 'json',
+            data    : request,
+            async   : true,
+            timeout : 10000
+        });
+    }
+
     function deleteBook(request) {
         return $.ajax({
             type    : 'DELETE',
@@ -120,15 +131,16 @@ var API = (function() {
     }
 
     return {
-        getBooks             : getBooks,
-        getBooksCountPetition  : getBooksCountPetition,
-        getBooksCountReading : getBooksCountReading,
+        getBooks                : getBooks,
+        getBooksCountPetition   : getBooksCountPetition,
+        getBooksCountReading    : getBooksCountReading,
         getBooksCountSafekeeping: getBooksCountSafekeeping,
-        registerBook         : registerBook,
-        updateBook           : updateBook,
-        updateBookPetition     : updateBookPetition,
-        updateBookReading    : updateBookReading,
+        registerBook            : registerBook,
+        updateBook              : updateBook,
+        updateBookPetition      : updateBookPetition,
+        updateBookReading       : updateBookReading,
         updateBookSafekeeping   : updateBookSafekeeping,
-        deleteBook           : deleteBook
+        updateReturnDate        : updateReturnDate,
+        deleteBook              : deleteBook
     };
 })();

@@ -11,13 +11,13 @@ window.addEventListener('load', function() {
         retryable(3, () => { 
             getBooks();
         }).catch(err => {
-            alert('本一覧取得リクエスト失敗');
+            alert('本一覧取得リクエスト失敗。通信状態を確認してください');
          });
         
         retryable(3, () => { 
             getStatusCount();
         }).catch(err => {
-            alert('本ステータス取得リクエスト失敗');
+            alert('本ステータス取得リクエスト失敗。通信状態を確認してください');
         });
     }, 1000);
 });
@@ -48,15 +48,20 @@ function displayBooks(books) {
     var imageBasePath = 'https://s3-ap-northeast-1.amazonaws.com/bookshelf-image/uploads/';
     if (books.length > 0) {
         books.forEach(function (book) {
-            var id     = book.id;
-            var title  = book.title;
-            var image  = imageBasePath + book.image;
-            var status = book.status;
-            var petition    = (status === 0) ? 'petition active'    : 'petition';
-            var reading     = (status === 1) ? 'reading active'     : 'reading';
-            var safekeeping = (status === 2) ? 'safekeeping active' : 'safekeeping';
+            var id          = book.id;
+            var title       = book.title;
+            var image       = imageBasePath + book.image;
+            var status      = book.status;
+            var return_date = (book.return_date) ? book.return_date     : '返却日指定なし';
+            var petition    = (status === 0)     ? 'petition active'    : 'petition';
+            var reading     = (status === 1)     ? 'reading active'     : 'reading';
+            var safekeeping = (status === 2)     ? 'safekeeping active' : 'safekeeping';
 
-            var bookItemElement = '<div id="' + id + '" class="book_item"><div class="book_image"><img src="' + image + '" alt=""></div>'
+            var bookItemElement = '<div id="' + id + '" class="book_item">'
+                                + '<form class="form_datepicker" name="update_return_date" action="">'
+                                + '<input class="datepicker" type="text" name="book_return_date" onblur="updateReturnDate(this)" value="' + return_date + '" readonly="readonly">' 
+                                + '</form>' 
+                                + '<div class="book_image"><img src="' + image + '" alt=""></div>'
                                 + '<div class="book_detail"><div class="book_title">' + title + '</div>'
                                 + '<form name="update_status" action="">' 
                                 + '<div class="book_status ' + petition + '"><input type="button" name="book_petition" value="申請中" onclick="updateBookPetition(this);"></div>'
@@ -67,7 +72,7 @@ function displayBooks(books) {
                                 + '<div class="book_delete">'
                                 + '<input type="button" name="submit_book_delete" value="削除する" onclick="deleteBook(this);"><img src="./images/icon_trash.png" alt="icon trash"></div>'
                                 + '</form>'
-                                + '</div></div>';
+                                + '</div>';
 
             bookListElement += bookItemElement;
         });
@@ -79,6 +84,7 @@ function displayBooks(books) {
     bookList.textContent = null;
     console.log(bookList);
     bookList.insertAdjacentHTML('afterbegin', bookListElement);
+    setDatepicker();
 }
 
 function getBooksCountPetition() {
@@ -186,5 +192,61 @@ function deleteBook(button) {
     }).fail(function(error) {
         console.log('本削除API：' + deleteBook.status);
         console.log('本削除API：' + error);
+        alert('リクエスト失敗したのでもう一回お願いします。');
     });
+}
+
+function setDatepicker() {
+    $.datepicker.setDefaults( $.datepicker.regional[ "ja" ] );
+    $(".datepicker").datepicker({
+        dateFormat     : 'yy-mm-dd',
+        minDate        : '0',
+        buttonImage    : './images/date.jpg',
+        showOn         : 'button',
+        buttonImageOnly: true,
+        showButtonPanel: true,
+        beforeShow: function(input) {
+            setTimeout(function() {
+                var buttonPane = $(input)
+                    .datepicker("widget")
+                    .find(".ui-datepicker-buttonpane");
+
+                var btn = $('<button class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" type="button">クリア</button>');
+                    btn.unbind("click")
+                    .bind("click", function () {
+                        $.datepicker._clearDate(input);
+                    });
+                    btn.appendTo(buttonPane);
+            }, 1 );
+        },
+        onChangeMonthYear: function(year, month, instance) {
+            setTimeout(function() {
+                var buttonPane = $(instance).datepicker('widget').find('.ui-datepicker-buttonpane');
+                $('<button>', {text: 'クリア',
+                    click: function() {
+                        $.datepicker._clearDate(instance.input);
+                    }
+                }).appendTo( buttonPane ).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');
+            }, 1 );
+        }
+    });
+}
+
+function updateReturnDate(button){
+    setTimeout(function() {
+        var id         = button.parentElement.parentElement.id;
+        var returnDate = document.forms.update_return_date.book_return_date.value;
+        var request = {
+            id        : id,
+            returnDate: returnDate
+        };
+        var updateReturnDate = API.updateReturnDate(request);
+        updateReturnDate.done(function(data){
+            console.log('返却日更新API：' + updateReturnDate.status);
+        }).fail(function(error) {
+            console.log('返却日更新API：' + updateReturnDate.status);
+            console.log('返却日更新API：' + error);
+            alert('リクエスト失敗したのでもう一回お願いします。');
+        });
+    }, 500 );
 }
