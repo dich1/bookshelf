@@ -43,9 +43,11 @@ class Bookshelf < Sinatra::Application
   set :show_exceptions, false
   helpers Sinatra::Param
 
-  UNREAD   = "0"
-  READING  = "1"
-  FINISHED = "2"
+  # UNREAD   = 0
+  PETITION   = 0
+  READING  = 1
+  # FINISHED = 2
+  SAFEKEEPING = 2
 
   url = ENV['APP_ENV']
   if url.nil?
@@ -109,16 +111,24 @@ class Bookshelf < Sinatra::Application
     get_books
   end
 
-  get '/api/books/count/unread/' do
-    get_count_unread
+  # get '/api/books/count/unread/' do
+  #   get_count_unread
+  # end 
+
+  get '/api/books/count/petition/' do
+    get_count_petition
   end 
 
   get '/api/books/count/reading/' do
     get_count_reading
   end 
 
-  get '/api/books/count/finished/' do
-    get_count_finished
+  # get '/api/books/count/finished/' do
+  #   get_count_finished
+  # end
+
+  get '/api/books/count/safekeeping/' do
+    get_count_safekeeping
   end
 
   post '/api/book/' do
@@ -145,12 +155,23 @@ class Bookshelf < Sinatra::Application
     # status 409
   end
 
-  put '/api/book/unread/' do
+  # put '/api/book/unread/' do
+  #   param :id    , Integer, required: true
+  #   if get_book.count.zero?
+  #     status 404
+  #   else
+  #     update_unread
+  #     status 204
+  #   end
+  #   # status 409
+  # end
+
+  put '/api/book/petition/' do
     param :id    , Integer, required: true
     if get_book.count.zero?
       status 404
     else
-      update_unread
+      update_petition
       status 204
     end
     # status 409
@@ -167,12 +188,23 @@ class Bookshelf < Sinatra::Application
     # status 409
   end
 
-  put '/api/book/finished/' do
+  # put '/api/book/finished/' do
+  #   param :id    , Integer, required: true
+  #   if get_book.count.zero?
+  #     status 404
+  #   else
+  #     update_finished
+  #     status 204
+  #   end
+  #   # status 409
+  # end
+
+  put '/api/book/safekeeping/' do
     param :id    , Integer, required: true
     if get_book.count.zero?
       status 404
     else
-      update_finished
+      update_safekeeping
       status 204
     end
     # status 409
@@ -229,11 +261,19 @@ class Bookshelf < Sinatra::Application
     return 
   end
 
-  def update_unread
+  # def update_unread
+  #   sql = "UPDATE books 
+  #             SET status = ? 
+  #           WHERE id = ?"
+  #   @client.xquery(sql, UNREAD, params[:id])
+  #   return 
+  # end
+
+  def update_petition
     sql = "UPDATE books 
               SET status = ? 
             WHERE id = ?"
-    @client.xquery(sql, UNREAD, params[:id])
+    @client.xquery(sql, PETITION, params[:id])
     return 
   end
 
@@ -245,20 +285,28 @@ class Bookshelf < Sinatra::Application
     return 
   end
 
-  def update_finished
+  # def update_finished
+  #   sql = "UPDATE books 
+  #             SET status = ? 
+  #           WHERE id = ?"
+  #   @client.xquery(sql, FINISHED, params[:id])
+  #   return 
+  # end
+
+  def update_safekeeping
     sql = "UPDATE books 
               SET status = ? 
             WHERE id = ?"
-    @client.xquery(sql, FINISHED, params[:id])
+    @client.xquery(sql, finished, params[:id])
     return 
   end
 
   def delete_book
     bucket = Aws::S3::Resource.new(
         :region            => 'ap-northeast-1',
-        :access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
-        :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
-    ).bucket(ENV['S3_BUCKET_NAME'])
+        :access_key_id     => 'AKIAIMYSBWUH3KAF7S3Q',
+        :secret_access_key => '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',
+    ).bucket('bookshelf-image')
 
     target_book = get_book
 
@@ -273,11 +321,19 @@ class Bookshelf < Sinatra::Application
     return 
   end
 
+  # def get_count_unread
+  #   sql = "SELECT COUNT(*) as count 
+  #            FROM books 
+  #           WHERE status = ?"
+  #   @hash = @client.xquery(sql, UNREAD).first
+  #   return @hash.to_json
+  # end
+
   def get_count_unread
     sql = "SELECT COUNT(*) as count 
              FROM books 
             WHERE status = ?"
-    @hash = @client.xquery(sql, UNREAD).first
+    @hash = @client.xquery(sql, PETITION).first
     return @hash.to_json
   end
 
@@ -289,11 +345,19 @@ class Bookshelf < Sinatra::Application
     return @hash.to_json
   end
 
+  # def get_count_finished
+  #   sql = "SELECT COUNT(*) as count 
+  #            FROM books 
+  #           WHERE status = ?"
+  #   @hash = @client.xquery(sql, FINISHED).first
+  #   return @hash.to_json
+  # end
+
   def get_count_finished
     sql = "SELECT COUNT(*) as count 
              FROM books 
             WHERE status = ?"
-    @hash = @client.xquery(sql, FINISHED).first
+    @hash = @client.xquery(sql, SAFEKEEPING).first
     return @hash.to_json
   end
 
