@@ -90,16 +90,16 @@ header nav a {
   background-color: #ddd;
 }
 /* アクティブ時とホバー時の色を指定*/
-.unread.active input,
-.unread input:hover {
+.petition.active input,
+.petition input:hover {
   background-color: #e00d26;
 }
 .reading.active input,
 .reading input:hover {
   background-color: #219ed2;
 }
-.finished.active input,
-.finished input:hover {
+.safekeeping.active input,
+.safekeeping input:hover {
   background-color: #1ca40a;
 }
 .book_count {

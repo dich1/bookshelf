@@ -21,10 +21,10 @@ var API = (function() {
         });
     }
 
-    function getBooksCountUnread() {
+    function getBooksCountPetition() {
         return $.ajax({
             type    : 'GET',
-            url     : baseUrl + 'books/count/unread/',
+            url     : baseUrl + 'books/count/petition/',
             dataType: 'json',
             async   : true,
             timeout : 10000
@@ -41,10 +41,10 @@ var API = (function() {
         });
     }
 
-    function getBooksCountFinished() {
+    function getBooksCountSafekeeping() {
         return $.ajax({
             type    : 'GET',
-            url     : baseUrl + 'books/count/finished/',
+            url     : baseUrl + 'books/count/safekeeping/',
             dataType: 'json',
             async   : true,
             timeout : 10000
@@ -75,10 +75,10 @@ var API = (function() {
         });
     }
 
-    function updateBookUnread(request) {
+    function updateBookPetition(request) {
         return $.ajax({
             type    : 'PUT',
-            url     : baseUrl + 'book/unread/',
+            url     : baseUrl + 'book/petition/',
             dataType: 'json',
             data    : request,
             async   : true,
@@ -97,10 +97,10 @@ var API = (function() {
         });
     }
 
-    function updateBookFinished(request) {
+    function updateBookSafekeeping(request) {
         return $.ajax({
             type    : 'PUT',
-            url     : baseUrl + 'book/finished/',
+            url     : baseUrl + 'book/safekeeping/',
             dataType: 'json',
             data    : request,
             async   : true,
@@ -121,14 +121,14 @@ var API = (function() {
 
     return {
         getBooks             : getBooks,
-        getBooksCountUnread  : getBooksCountUnread,
+        getBooksCountPetition  : getBooksCountPetition,
         getBooksCountReading : getBooksCountReading,
-        getBooksCountFinished: getBooksCountFinished,
+        getBooksCountSafekeeping: getBooksCountSafekeeping,
         registerBook         : registerBook,
         updateBook           : updateBook,
-        updateBookUnread     : updateBookUnread,
+        updateBookPetition     : updateBookPetition,
         updateBookReading    : updateBookReading,
-        updateBookFinished   : updateBookFinished,
+        updateBookSafekeeping   : updateBookSafekeeping,
         deleteBook           : deleteBook
     };
 })();

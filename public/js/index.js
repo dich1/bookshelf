@@ -23,9 +23,9 @@ window.addEventListener('load', function() {
 });
 
 function getStatusCount() {
-    getBooksCountUnread();
+    getBooksCountPetition();
     getBooksCountReading();
-    getBooksCountFinished();
+    getBooksCountSafekeeping();
 }
 
 function getBooks() {
@@ -52,16 +52,16 @@ function displayBooks(books) {
             var title  = book.title;
             var image  = imageBasePath + book.image;
             var status = book.status;
-            var unread   = (status === '0') ? 'unread active'   : 'unread';
-            var reading  = (status === '1') ? 'reading active'  : 'reading';
-            var finished = (status === '2') ? 'finished active' : 'finished';
+            var petition    = (status === '0') ? 'petition active'    : 'petition';
+            var reading     = (status === '1') ? 'reading active'     : 'reading';
+            var safekeeping = (status === '2') ? 'safekeeping active' : 'safekeeping';
 
             var bookItemElement = '<div id="' + id + '" class="book_item"><div class="book_image"><img src="' + image + '" alt=""></div>'
                                 + '<div class="book_detail"><div class="book_title">' + title + '</div>'
                                 + '<form name="update_status" action="">' 
-                                + '<div class="book_status ' + unread + '"><input type="button" name="book_unread" value="未読" onclick="updateBookUnread(this);"></div>'
+                                + '<div class="book_status ' + petition + '"><input type="button" name="book_petition" value="申請中" onclick="updateBookPetition(this);"></div>'
                                 + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="読書中" onclick="updateBookReading(this);"></div>'
-                                + '<div class="book_status ' + finished + '"><input type="button" name="book_finished" value="既読" onclick="updateBookFinished(this);"></div>'
+                                + '<div class="book_status ' + safekeeping + '"><input type="button" name="book_safekeeping" value="保管中" onclick="updateBookSafekeeping(this);"></div>'
                                 + '</form>'
                                 + '<form name="delete_book" action="">'
                                 + '<div class="book_delete">'
@@ -81,15 +81,15 @@ function displayBooks(books) {
     bookList.insertAdjacentHTML('afterbegin', bookListElement);
 }
 
-function getBooksCountUnread() {
-    var getBooksCountUnread = API.getBooksCountUnread();
+function getBooksCountPetition() {
+    var getBooksCountPetition = API.getBooksCountPetition();
     var count;
-    getBooksCountUnread.done(function(data){
-        console.log('未読数取得API：' + getBooksCountUnread.status);
+    getBooksCountPetition.done(function(data){
+        console.log('申請中数取得API：' + getBooksCountPetition.status);
         count = data.count;
-        document.getElementById('books_unread').textContent = count;
+        document.getElementById('books_petition').textContent = count;
     }).fail(function(error) {
-        console.log('未読数取得API：' + getBooksCountUnread.status);
+        console.log('申請中数取得API：' + getBooksCountPetition.status);
         console.log(error);
     });
 }
@@ -107,34 +107,34 @@ function getBooksCountReading() {
     });
 }
 
-function getBooksCountFinished() {
-    var getBooksCountFinished = API.getBooksCountFinished();
+function getBooksCountSafekeeping() {
+    var getBooksCountSafekeeping = API.getBooksCountSafekeeping();
     var count;
-    getBooksCountFinished.done(function(data){
-        console.log('既読数取得API：' + getBooksCountFinished.status);
+    getBooksCountSafekeeping.done(function(data){
+        console.log('保管中数取得API：' + getBooksCountSafekeeping.status);
         count = data.count;
-        document.getElementById('books_finished').textContent = count;
+        document.getElementById('books_safekeeping').textContent = count;
     }).fail(function(error) {
-        console.log('既読数取得API：' + getBooksCountFinished.status);
-        console.log('既読数取得API：' + error);
+        console.log('保管中数取得API：' + getBooksCountSafekeeping.status);
+        console.log('保管中数取得API：' + error);
     });
 }
 
-function updateBookUnread(button) {
+function updateBookPetition(button) {
     var id    = button.parentElement.parentElement.parentElement.parentElement.id;
     var status = '0';
     var request = {
         id    : id,
         status: status
     };
-    var updateBookUnread = API.updateBookUnread(request);
-    updateBookUnread.done(function(data){
+    var updateBookPetition = API.updateBookPetition(request);
+    updateBookPetition.done(function(data){
         getBooks();
         getStatusCount();
-        console.log('未読更新API：' + updateBookUnread.status);
+        console.log('申請中更新API：' + updateBookPetition.status);
     }).fail(function(error) {
-        console.log('未読更新API：' + updateBookUnread.status);
-        console.log('未読更新API：' + error);
+        console.log('申請中更新API：' + updateBookPetition.status);
+        console.log('申請中更新API：' + error);
         alert('リクエスト失敗したのでもう一回お願いします。');
     });
 }
@@ -158,21 +158,21 @@ function updateBookReading(button) {
     });    
 }
 
-function updateBookFinished(button) {
+function updateBookSafekeeping(button) {
     var id    = button.parentElement.parentElement.parentElement.parentElement.id;
     var status = '2';
     var request = {
         id    : id,
         status: status
     };
-    var updateBookFinished = API.updateBookFinished(request);
-    updateBookFinished.done(function(data){
+    var updateBookSafekeeping = API.updateBookSafekeeping(request);
+    updateBookSafekeeping.done(function(data){
         getBooks();
         getStatusCount();
-        console.log('既読更新API：' + updateBookFinished.status);
+        console.log('保管中更新API：' + updateBookSafekeeping.status);
     }).fail(function(error) {
-        console.log('既読更新API：' + updateBookFinished.status);
-        console.log('既読更新API：' + error);
+        console.log('保管中更新API：' + updateBookSafekeeping.status);
+        console.log('保管中更新API：' + error);
         alert('リクエスト失敗したのでもう一回お願いします。');
     });    
 }
