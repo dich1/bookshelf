@@ -210,6 +210,18 @@ class Bookshelf < Sinatra::Application
     # status 409
   end
 
+  put '/api/book/return-date/' do
+    param :id          , Integer, required: true
+    param :returnDate  , String , required: true
+    if get_book.count.zero?
+      status 404
+    else
+      update_return_date
+      status 204
+    end
+    # status 409
+  end
+
   delete '/api/book/' do
     param :id    , Integer, required: true
     if get_book.count.zero?
@@ -258,6 +270,14 @@ class Bookshelf < Sinatra::Application
                 , status = ? 
             WHERE id = ?"
     @client.xquery(sql, params[:title], params[:image], params[:status], params[:id])
+    return 
+  end
+
+  def update_return_date
+    sql = "UPDATE books 
+              SET return_date = ? 
+            WHERE id = ?"
+    @client.xquery(sql, params[:returnDate], params[:id])
     return 
   end
 
