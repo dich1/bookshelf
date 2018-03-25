@@ -329,7 +329,7 @@ class Bookshelf < Sinatra::Application
   #   return @hash.to_json
   # end
 
-  def get_count_unread
+  def get_count_petition
     sql = "SELECT COUNT(*) as count 
              FROM books 
             WHERE status = ?"
@@ -353,7 +353,7 @@ class Bookshelf < Sinatra::Application
   #   return @hash.to_json
   # end
 
-  def get_count_finished
+  def get_count_safekeeping
     sql = "SELECT COUNT(*) as count 
              FROM books 
             WHERE status = ?"
