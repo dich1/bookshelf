@@ -134,8 +134,8 @@ class Bookshelf < Sinatra::Application
   post '/api/book/' do
     # パラメータ不正：status 400
     param :title , String , required: true
-    param :image , Hash   , required: false
-    param :status, String , required: true
+    param :image , Hash   , required: true
+    param :status, Integer, required: true
     register_book
     status 201
     # status 409
@@ -144,8 +144,8 @@ class Bookshelf < Sinatra::Application
   put '/api/book/' do
     param :id    , Integer, required: true
     param :title , String , required: true
-    param :image , String , required: false
-    param :status, String , required: true
+    param :image , String , required: true
+    param :status, Integer, required: true
     if get_book.count.zero?
       status 404
     else

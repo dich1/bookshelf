@@ -52,9 +52,9 @@ function displayBooks(books) {
             var title  = book.title;
             var image  = imageBasePath + book.image;
             var status = book.status;
-            var petition    = (status === '0') ? 'petition active'    : 'petition';
-            var reading     = (status === '1') ? 'reading active'     : 'reading';
-            var safekeeping = (status === '2') ? 'safekeeping active' : 'safekeeping';
+            var petition    = (status === 0) ? 'petition active'    : 'petition';
+            var reading     = (status === 1) ? 'reading active'     : 'reading';
+            var safekeeping = (status === 2) ? 'safekeeping active' : 'safekeeping';
 
             var bookItemElement = '<div id="' + id + '" class="book_item"><div class="book_image"><img src="' + image + '" alt=""></div>'
                                 + '<div class="book_detail"><div class="book_title">' + title + '</div>'
@@ -122,10 +122,8 @@ function getBooksCountSafekeeping() {
 
 function updateBookPetition(button) {
     var id    = button.parentElement.parentElement.parentElement.parentElement.id;
-    var status = '0';
     var request = {
-        id    : id,
-        status: status
+        id    : id
     };
     var updateBookPetition = API.updateBookPetition(request);
     updateBookPetition.done(function(data){
@@ -141,10 +139,8 @@ function updateBookPetition(button) {
 
 function updateBookReading(button) {
     var id    = button.parentElement.parentElement.parentElement.parentElement.id;
-    var status = '1';
     var request = {
-        id    : id,
-        status: status
+        id    : id
     };
     var updateBookReading = API.updateBookReading(request);
     updateBookReading.done(function(data){
@@ -160,10 +156,8 @@ function updateBookReading(button) {
 
 function updateBookSafekeeping(button) {
     var id    = button.parentElement.parentElement.parentElement.parentElement.id;
-    var status = '2';
     var request = {
-        id    : id,
-        status: status
+        id    : id
     };
     var updateBookSafekeeping = API.updateBookSafekeeping(request);
     updateBookSafekeeping.done(function(data){
