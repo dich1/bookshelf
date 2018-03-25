@@ -297,16 +297,16 @@ class Bookshelf < Sinatra::Application
     sql = "UPDATE books 
               SET status = ? 
             WHERE id = ?"
-    @client.xquery(sql, finished, params[:id])
+    @client.xquery(sql, SAFEKEEPING, params[:id])
     return 
   end
 
   def delete_book
     bucket = Aws::S3::Resource.new(
         :region            => 'ap-northeast-1',
-        :access_key_id     => 'AKIAIMYSBWUH3KAF7S3Q',
-        :secret_access_key => '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',
-    ).bucket('bookshelf-image')
+        :access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
+        :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    ).bucket(ENV['S3_BUCKET_NAME'])
 
     target_book = get_book
 
