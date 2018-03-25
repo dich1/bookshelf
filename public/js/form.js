@@ -1,10 +1,18 @@
 function registerBook(button) {
     var title = document.forms.register_book.book_title.value;
-    var image;
-    if (document.forms.register_book.book_image.files.length > 0) {
-      image = document.forms.register_book.book_image.files[0];
+    var message;
+    if (title.length === 0) {
+        alert('タイトルを入力してください');
+        return;
     }
-    var status = '0';
+
+    var image;
+    if (document.forms.register_book.book_image.files.length === 0) {
+        alert('画像を添付してください');
+        return;
+    }
+    image = document.forms.register_book.book_image.files[0];
+    var status = 0;
     var request = new FormData();
     request.append('title', title);
     request.append('image', image);
@@ -13,11 +21,11 @@ function registerBook(button) {
     var registerBook = API.registerBook(request);
     registerBook.done(function(data){
         console.log('本登録API：' + registerBook.status);
+        location.href = './index.html' + '?' + (new Date()).getTime();
     }).fail(function(error) {
         console.log('本登録API：' + registerBook.status);
         console.log('本登録API：' + error);
     });
-    location.href = './index.html' + '?' + (new Date()).getTime();
 }
 
 function updateBook(button) {

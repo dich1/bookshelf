@@ -19,7 +19,7 @@ window.addEventListener('load', function() {
         }).catch(err => {
             alert('本ステータス取得リクエスト失敗');
         });
-    }, 500);
+    }, 1000);
 });
 
 function getStatusCount() {
