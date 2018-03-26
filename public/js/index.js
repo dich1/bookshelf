@@ -183,6 +183,7 @@ function deleteBook(button) {
         id    : id
     };
     var deleteBook = API.deleteBook(request);
+    confirm('削除してもよろしいですか ?');
     deleteBook.done(function(data){
         console.log('本削除API：' + deleteBook.status);
         // bookItem = document.getElementById(id);
@@ -243,6 +244,7 @@ function updateReturnDate(button){
         var updateReturnDate = API.updateReturnDate(request);
         updateReturnDate.done(function(data){
             console.log('返却日更新API：' + updateReturnDate.status);
+            alert('返却日を更新しました。');
         }).fail(function(error) {
             console.log('返却日更新API：' + updateReturnDate.status);
             console.log('返却日更新API：' + error);

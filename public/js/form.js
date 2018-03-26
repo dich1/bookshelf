@@ -21,10 +21,12 @@ function registerBook(button) {
     var registerBook = API.registerBook(request);
     registerBook.done(function(data){
         console.log('本登録API：' + registerBook.status);
+        alert('本を登録しました。');
         location.href = './index.html' + '?' + (new Date()).getTime();
     }).fail(function(error) {
         console.log('本登録API：' + registerBook.status);
         console.log('本登録API：' + error);
+        alert('本を登録できませんでした。もう1度確認してください。');
     });
 }
 
