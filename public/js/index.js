@@ -72,7 +72,7 @@ function displayBooks(books) {
                                 + '<div class="book_delete">'
                                 + '<input type="button" name="submit_book_delete" value="削除する" onclick="deleteBook(this);"><img src="./images/icon_trash.png" alt="icon trash"></div>'
                                 + '</form>'
-                                + '</div>';
+                                + '</div></div>';
 
             bookListElement += bookItemElement;
         });
