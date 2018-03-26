@@ -34,9 +34,9 @@ function getBooks() {
     getBooks.done(function(data){
         console.log('本一覧取得API：' + getBooks.status);
         books = data.books;
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log('本一覧取得API：' + getBooks.status);
-        console.log('本一覧取得API：' + error);
+        console.log('本一覧取得API：' + errorThrown.message);
     });
     console.log(books);
     
@@ -94,9 +94,9 @@ function getBooksCountPetition() {
         console.log('申請中数取得API：' + getBooksCountPetition.status);
         count = data.count;
         document.getElementById('books_petition').textContent = count;
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log('申請中数取得API：' + getBooksCountPetition.status);
-        console.log(error);
+        console.log(data, textStatus, errorThrown);
     });
 }
 
@@ -107,9 +107,9 @@ function getBooksCountReading() {
         console.log('読書中取得API：' + getBooksCountReading.status);
         count = data.count;
         document.getElementById('books_reading').textContent = count;
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log('読書中取得API：' + getBooksCountReading.status);
-        console.log('読書中取得API：' + error);
+        console.log('読書中取得API：' + errorThrown.message);
     });
 }
 
@@ -120,9 +120,9 @@ function getBooksCountSafekeeping() {
         console.log('保管中数取得API：' + getBooksCountSafekeeping.status);
         count = data.count;
         document.getElementById('books_safekeeping').textContent = count;
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log('保管中数取得API：' + getBooksCountSafekeeping.status);
-        console.log('保管中数取得API：' + error);
+        console.log('保管中数取得API：' + errorThrown.message);
     });
 }
 
@@ -136,9 +136,9 @@ function updateBookPetition(button) {
         getBooks();
         getStatusCount();
         console.log('申請中更新API：' + updateBookPetition.status);
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log('申請中更新API：' + updateBookPetition.status);
-        console.log('申請中更新API：' + error);
+        console.log('申請中更新API：' + errorThrown.message);
         alert('リクエスト失敗したのでもう一回お願いします。');
     });
 }
@@ -153,9 +153,9 @@ function updateBookReading(button) {
         getBooks();
         getStatusCount();
         console.log('読書中更新API：' + updateBookReading.status);
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log('読書中更新API：' + updateBookReading.status);
-        console.log(error);
+        console.log(data, textStatus, errorThrown);
         alert('リクエスト失敗したのでもう一回お願いします。');
     });    
 }
@@ -170,9 +170,9 @@ function updateBookSafekeeping(button) {
         getBooks();
         getStatusCount();
         console.log('保管中更新API：' + updateBookSafekeeping.status);
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log('保管中更新API：' + updateBookSafekeeping.status);
-        console.log('保管中更新API：' + error);
+        console.log('保管中更新API：' + errorThrown.message);
         alert('リクエスト失敗したのでもう一回お願いします。');
     });    
 }
@@ -183,16 +183,16 @@ function deleteBook(button) {
         id    : id
     };
     var deleteBook = API.deleteBook(request);
-    confirm('削除してもよろしいですか ?');
+    confirm('消しちゃう');
     deleteBook.done(function(data){
         console.log('本削除API：' + deleteBook.status);
         // bookItem = document.getElementById(id);
         // bookItem.parentNode.removeChild(bookItem);
         getBooks();
         getStatusCount();
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log('本削除API：' + deleteBook.status);
-        console.log('本削除API：' + error);
+        console.log('本削除API：' + errorThrown.message);
         alert('リクエスト失敗したのでもう一回お願いします。');
     });
 }
@@ -245,9 +245,9 @@ function updateReturnDate(button){
         updateReturnDate.done(function(data){
             console.log('返却日更新API：' + updateReturnDate.status);
             alert('返却日を更新しました。');
-        }).fail(function(error) {
+        }).fail(function(data, textStatus, errorThrown) {
             console.log('返却日更新API：' + updateReturnDate.status);
-            console.log('返却日更新API：' + error);
+            console.log('返却日更新API：' + errorThrown.message);
             alert('リクエスト失敗したのでもう一回お願いします。');
         });
     }, 500 );

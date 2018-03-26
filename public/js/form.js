@@ -23,11 +23,14 @@ function registerBook(button) {
         console.log('本登録API：' + registerBook.status);
         alert('本を登録しました。');
         location.href = './index.html' + '?' + (new Date()).getTime();
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log('本登録API：' + registerBook.status);
-        console.log('本登録API：' + error);
-        alert('本を登録できませんでした。もう1度確認してください。');
+        console.log('本登録API：' + errorThrown.message);
+        // alert('本を登録できませんでした。もう1度確認してください。');
     });
+    // FIXME 暫定対応のため、後で削除
+    location.href = './index.html' + '?' + (new Date()).getTime();
+
 }
 
 function updateBook(button) {
@@ -44,8 +47,8 @@ function updateBook(button) {
     var updateBook = API.updateBook(request);
     updateBook.done(function(data){
         console.log(updateBook.status);
-    }).fail(function(error) {
+    }).fail(function(data, textStatus, errorThrown) {
         console.log(updateBook.status);
-        console.log(error);
+        console.log(data, textStatus, errorThrown);
     });
 }
