@@ -183,7 +183,7 @@ function deleteBook(button) {
         id    : id
     };
     var deleteBook = API.deleteBook(request);
-    confirm('消しちゃう');
+    confirm('削除してもよろしいですか ?');
     deleteBook.done(function(data){
         console.log('本削除API：' + deleteBook.status);
         // bookItem = document.getElementById(id);
