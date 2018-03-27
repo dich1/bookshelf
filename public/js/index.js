@@ -45,7 +45,7 @@ function getBooks() {
 
 function displayBooks(books) {
     var bookListElement = '';
-    var imageBasePath = 'https://s3-ap-northeast-1.amazonaws.com/bookshelf-image/uploads/';
+    var imageBasePath = '//s3-ap-northeast-1.amazonaws.com/bookshelf-image/uploads/';
     if (books.length > 0) {
         books.forEach(function (book) {
             var id          = book.id;
