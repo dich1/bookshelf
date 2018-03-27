@@ -252,6 +252,9 @@ img.ui-datepicker-trigger{
 }
 
 /* 返却日 */
+.return_date_title{
+  color: #30B931;
+}
 .datepicker{
   text-align: center;
   background-color:transparent;
