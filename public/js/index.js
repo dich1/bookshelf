@@ -66,7 +66,7 @@ function displayBooks(books) {
                                 + '<div class="book_detail"><div class="book_title">' + title + '</div>'
                                 + '<form name="update_status" action="">' 
                                 + '<div class="book_status ' + petition + '"><input type="button" name="book_petition" value="申請中" onclick="updateBookPetition(this);"></div>'
-                                + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="読書中" onclick="updateBookReading(this);"></div>'
+                                + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="貸出中" onclick="updateBookReading(this);"></div>'
                                 + '<div class="book_status ' + safekeeping + '"><input type="button" name="book_safekeeping" value="保管中" onclick="updateBookSafekeeping(this);"></div>'
                                 + '</form>'
                                 + '<form name="delete_book" action="">'
@@ -105,12 +105,12 @@ function getBooksCountReading() {
     var getBooksCountReading = API.getBooksCountReading();
     var count;
     getBooksCountReading.done(function(data){
-        console.log('読書中取得API：' + getBooksCountReading.status);
+        console.log('貸出中取得API：' + getBooksCountReading.status);
         count = data.count;
         document.getElementById('books_reading').textContent = count;
     }).fail(function(data, textStatus, errorThrown) {
-        console.log('読書中取得API：' + getBooksCountReading.status);
-        console.log('読書中取得API：' + errorThrown.message);
+        console.log('貸出中取得API：' + getBooksCountReading.status);
+        console.log('貸出中取得API：' + errorThrown.message);
     });
 }
 
@@ -153,9 +153,9 @@ function updateBookReading(button) {
     updateBookReading.done(function(data){
         getBooks();
         getStatusCount();
-        console.log('読書中更新API：' + updateBookReading.status);
+        console.log('貸出中更新API：' + updateBookReading.status);
     }).fail(function(data, textStatus, errorThrown) {
-        console.log('読書中更新API：' + updateBookReading.status);
+        console.log('貸出中更新API：' + updateBookReading.status);
         console.log(data, textStatus, errorThrown);
         alert('リクエスト失敗したのでもう一回お願いします。');
     });    
