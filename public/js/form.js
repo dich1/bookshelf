@@ -1,11 +1,11 @@
 function registerBook(button) {
+    var endpointName = '本登録API'
     var title = document.forms.register_book.book_title.value;
     var message;
     if (title.length === 0) {
         alert('タイトルを入力してください');
         return;
     }
-
     var image;
     if (document.forms.register_book.book_image.files.length === 0) {
         alert('画像を添付してください');
@@ -20,19 +20,15 @@ function registerBook(button) {
 
     var registerBook = API.registerBook(request);
     registerBook.done(function(data){
-        console.log('本登録API：' + registerBook.status);
+        console.log(endpointName + '：' + registerBook.status);
         alert('本を登録しました。');
         location.href = './index.html' + '?' + (new Date()).getTime();
     }).fail(function(data, textStatus, errorThrown) {
-        console.log('本登録API：' + registerBook.status);
-        console.log('本登録API：' + errorThrown.message);
-        // alert('本を登録できませんでした。もう1度確認してください。');
+        displayResponseError(endpointName, data, textStatus, errorThrown);
     });
-    // FIXME 暫定対応のため、後で削除
-    location.href = './index.html' + '?' + (new Date()).getTime();
-
 }
 
+// FIXME 本更新APIテスト用(本詳細画面作成時に使用)
 function updateBook(button) {
     var id    = 0;
     var title = '更新タイトル';
