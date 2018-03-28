@@ -1,3 +1,28 @@
+function retryable(retryCount, func) {
+    let promise = Promise.reject().catch(() => func());
+    for (let i = 0; i < retryCount; i++) {
+      promise = promise.catch(err => func());
+    }
+
+    return promise;
+}
+
+window.addEventListener('load', function() {
+    setTimeout(function(){
+        retryable(3, () => { 
+            getBooks();
+        }).catch(err => {
+            alert('本一覧取得API失敗。通信状態を確認してください');
+         });
+        
+        retryable(3, () => { 
+            getStatusCount();
+        }).catch(err => {
+            alert('本ステータス取得API失敗。通信状態を確認してください');
+        });
+    }, 1000);
+});
+
 function getStatusCount() {
     getBooksCountPetition();
     getBooksCountReading();
@@ -120,7 +145,7 @@ function updateBookPetition(button) {
 }
 
 function updateBookReading(button) {
-    var endpointName '貸出中更新API';
+    var endpointName = '貸出中更新API';
     var id    = button.parentElement.parentElement.parentElement.parentElement.id;
     var request = {
         id    : id
@@ -136,7 +161,7 @@ function updateBookReading(button) {
 }
 
 function updateBookSafekeeping(button) {
-    var endpointName '保管中更新API';
+    var endpointName = '保管中更新API';
     var id    = button.parentElement.parentElement.parentElement.parentElement.id;
     var request = {
         id    : id
@@ -160,7 +185,7 @@ function deleteBook(button) {
     var deleteBook = API.deleteBook(request);
     confirm('削除してもよろしいですか ?');
     deleteBook.done(function(data){
-        console.log(endpointName'：' + deleteBook.status);
+        console.log(endpointName + '：' + deleteBook.status);
         // bookItem = document.getElementById(id);
         // bookItem.parentNode.removeChild(bookItem);
         getBooks();

@@ -26,6 +26,9 @@ function registerBook(button) {
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });
+    // FIXME 暫定対応のため、後で削除
+    location.href = './index.html' + '?' + (new Date()).getTime();
+
 }
 
 // FIXME 本更新APIテスト用(本詳細画面作成時に使用)
