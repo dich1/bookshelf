@@ -57,7 +57,7 @@ var API = (function() {
             url        : baseUrl + 'book/',
             dataType   : 'json',
             data       : request,
-            async      : true,
+            async      : false,
             timeout    : 10000,
             processData: false,
             contentType: false
