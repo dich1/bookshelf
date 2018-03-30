@@ -1,21 +1,25 @@
 function registerBook(button) {
     var endpointName = '本登録API'
     var title = document.forms.register_book.book_title.value;
-    var message;
     if (title.length === 0) {
         alert('タイトルを入力してください');
         return;
     }
-    var image;
     if (document.forms.register_book.book_image.files.length === 0) {
         alert('画像を添付してください');
         return;
     }
-    image = document.forms.register_book.book_image.files[0];
+    var imageFile = document.forms.register_book.book_image.files[0];
+    var extension = imageFile.name.split('.')[imageFile.name.split('.').length - 1];
+    var acceptExtensions = ['jpg', 'jpeg', 'gif', 'png'];
+    if (acceptExtensions.indexOf(extension) === -1) {
+        alert(acceptExtensions.join(', ') + 'の拡張子で添付してください');
+        return;
+    }
     var status = 0;
     var request = new FormData();
     request.append('title', title);
-    request.append('image', image);
+    request.append('image', imageFile, imageFile.name);
     request.append('status', status);
 
     var registerBook = API.registerBook(request);
