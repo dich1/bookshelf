@@ -4,6 +4,14 @@ source "https://rubygems.org"
 
 ruby '2.4.2'
 
+gem 'rake'
+
+gem 'foreman'
+
+gem 'unicorn'
+
+gem 'connection_pool', '~> 2.2'
+
 gem "sinatra"
 gem "sinatra-param"
 gem "mysql2"
