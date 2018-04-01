@@ -108,6 +108,7 @@ class Bookshelf < Sinatra::Application
   end
 
   get '/api/books/' do
+    param :status, Integer, required: false
     get_books
   end
 
@@ -242,10 +243,12 @@ class Bookshelf < Sinatra::Application
   end
 
   def get_books
-    sql = "SELECT * 
-             FROM books 
-         ORDER BY created_at DESC 
-            LIMIT 10"
+    sql    = "SELECT * FROM books "
+    if params[:status]
+      sql << "WHERE status = " + params[:status].to_s
+    end
+    sql   << " ORDER BY created_at DESC LIMIT 10"
+    puts sql
     @client.xquery(sql).each {|row| @ary << row}
     @hash["books"] = @ary
     return @hash.to_json

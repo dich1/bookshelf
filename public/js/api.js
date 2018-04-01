@@ -11,11 +11,12 @@ var API = (function() {
     }
 
 
-    function getBooks() {
+    function getBooks(request) {
         return $.ajax({
             type    : 'GET',
             url     : baseUrl + 'books/',
             dataType: 'json',
+            data    : request,
             async   : false,
             timeout : 10000
         });
@@ -114,7 +115,7 @@ var API = (function() {
             url     : baseUrl + '/book/return-date/',
             dataType: 'json',
             data    : request,
-            async   : true,
+            async   : false,
             timeout : 10000
         });
     }

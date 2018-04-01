@@ -10,7 +10,7 @@ function retryable(retryCount, func) {
 window.addEventListener('load', function() {
     setTimeout(function(){
         retryable(3, () => { 
-            getBooks();
+            getBooks(null);
         }).catch(err => {
             alert('本一覧取得API失敗。通信状態を確認してください');
          });
@@ -29,9 +29,16 @@ function getStatusCount() {
     getBooksCountSafekeeping();
 }
 
-function getBooks() {
+function getBooks(button) {
     var endpointName = '本一覧取得API';
-    var getBooks = API.getBooks();
+    var status = button;
+    var request = null;
+    if (status != null) {
+        request = {
+            status    : status
+        };
+    }
+    var getBooks = API.getBooks(request);
     var books;
     getBooks.done(function(data){
         console.log(endpointName +  '：' + getBooks.status);
@@ -136,7 +143,7 @@ function updateBookPetition(button) {
     };
     var updateBookPetition = API.updateBookPetition(request);
     updateBookPetition.done(function(data){
-        getBooks();
+        getBooks(null);
         getStatusCount();
         console.log(endpointName + '：' + updateBookPetition.status);
     }).fail(function(data, textStatus, errorThrown) {
@@ -152,7 +159,7 @@ function updateBookReading(button) {
     };
     var updateBookReading = API.updateBookReading(request);
     updateBookReading.done(function(data){
-        getBooks();
+        getBooks(null);
         getStatusCount();
         console.log(endpointName + '：' + updateBookReading.status);
         alert('本を借りました。');
@@ -169,7 +176,7 @@ function updateBookSafekeeping(button) {
     };
     var updateBookSafekeeping = API.updateBookSafekeeping(request);
     updateBookSafekeeping.done(function(data){
-        getBooks();
+        getBooks(null);
         getStatusCount();
         console.log(endpointName + '：' + updateBookSafekeeping.status);
         alert('本を返却しました。');
@@ -192,7 +199,7 @@ function deleteBook(button) {
         console.log(endpointName + '：' + deleteBook.status);
         // bookItem = document.getElementById(id);
         // bookItem.parentNode.removeChild(bookItem);
-        getBooks();
+        getBooks(null);
         getStatusCount();
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
@@ -210,7 +217,7 @@ function updateReturnDate(dateText, event){
     var updateReturnDate = API.updateReturnDate(request);
     updateReturnDate.done(function(data){
         console.log(endpointName + '：' + updateReturnDate.status);
-        getBooks();
+        getBooks(null);
         alert('返却日を更新しました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
