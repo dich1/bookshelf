@@ -61,7 +61,7 @@ function displayBooks(books) {
             var bookItemElement = '<div id="' + id + '" class="book_item">'
                                 + '<form class="form_datepicker" name="update_return_date" action="">'
                                 + '<small class="return_date_title">返却予定日</small>'
-                                + '<input class="datepicker" type="text" name="book_return_date" onblur="updateReturnDate(this)" value="' + return_date + '" readonly="readonly">' 
+                                + '<input class="datepicker" type="text" name="book_return_date" value="' + return_date + '" readonly="readonly">' 
                                 + '</form>' 
                                 + '<div class="book_image"><img src="' + image + '" alt=""></div>'
                                 + '<div class="book_detail"><div class="book_title">' + title + '</div>'
@@ -197,47 +197,10 @@ function deleteBook(button) {
     });
 }
 
-function setDatepicker() {
-    $.datepicker.setDefaults($.datepicker.regional["ja"]);
-    $(".datepicker").datepicker({
-        dateFormat     : 'yy-mm-dd',
-        minDate        : '0',
-        maxDate        : '+1m',
-        buttonImage    : './images/date.jpg',
-        showOn         : 'button',
-        buttonImageOnly: true,
-        showButtonPanel: true,
-        beforeShow: function(input) {
-            setTimeout(function() {
-                var buttonPane = $(input)
-                    .datepicker("widget")
-                    .find(".ui-datepicker-buttonpane");
-
-                var btn = $('<button class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" type="button">返却</button>');
-                    btn.unbind("click")
-                    .bind("click", function () {
-                        $.datepicker._clearDate(input);
-                    });
-                    btn.appendTo(buttonPane);
-            }, 1 );
-        },
-        onChangeMonthYear: function(year, month, instance) {
-            setTimeout(function() {
-                var buttonPane = $(instance).datepicker('widget').find('.ui-datepicker-buttonpane');
-                $('<button>', {text: '返却',
-                    click: function() {
-                        $.datepicker._clearDate(instance.input);
-                    }
-                }).appendTo( buttonPane ).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');
-            }, 1 );
-        }
-    });
-}
-
-function updateReturnDate(button){
+function updateReturnDate(dateText, event){
     var endpointName = '返却日更新API';
-    var id         = button.parentElement.parentElement.id;
-    var returnDate = document.forms.update_return_date.book_return_date.value;
+    var id         = event.input[0].parentElement.parentElement.id
+    var returnDate = dateText;
     var request = {
         id        : id,
         returnDate: returnDate
@@ -247,20 +210,9 @@ function updateReturnDate(button){
         updateReturnDate.done(function(data){
             console.log(endpointName + '：' + updateReturnDate.status);
             getBooks();
-            // alert('返却日を更新しました。');
+            alert('返却日を更新しました。');
         }).fail(function(data, textStatus, errorThrown) {
             displayResponseError(endpointName, data, textStatus, errorThrown);
         });
     }, 500 );
-}
-
-function checkValidityDatepicker(id, status) {
-    if (status !== 1) {
-        setInvalidDatepicker(id);
-    }
-}
-
-function setInvalidDatepicker(id) {
-    var datepickerImg = document.getElementById(id).children[0].children[2];
-    // pointer-events:none;、cursor:not-allowed;を設定
 }
