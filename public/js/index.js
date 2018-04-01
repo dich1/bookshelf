@@ -146,7 +146,7 @@ function updateBookPetition(button) {
 
 function updateBookReading(button) {
     var endpointName = '貸出中更新API';
-    var id    = button.parentElement.parentElement.parentElement.parentElement.id;
+    var id = button.parentElement.parentElement.parentElement.parentElement.id;
     var request = {
         id    : id
     };
@@ -155,6 +155,7 @@ function updateBookReading(button) {
         getBooks();
         getStatusCount();
         console.log(endpointName + '：' + updateBookReading.status);
+        alert('本を借りました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -162,7 +163,7 @@ function updateBookReading(button) {
 
 function updateBookSafekeeping(button) {
     var endpointName = '保管中更新API';
-    var id    = button.parentElement.parentElement.parentElement.parentElement.id;
+    var id = button.parentElement.parentElement.parentElement.parentElement.id;
     var request = {
         id    : id
     };
@@ -171,6 +172,7 @@ function updateBookSafekeeping(button) {
         getBooks();
         getStatusCount();
         console.log(endpointName + '：' + updateBookSafekeeping.status);
+        alert('本を返却しました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -178,7 +180,7 @@ function updateBookSafekeeping(button) {
 
 function deleteBook(button) {
     var endpointName = '本削除API';
-    var id    = button.parentElement.parentElement.parentElement.parentElement.id;
+    var id = button.parentElement.parentElement.parentElement.parentElement.id;
     var request = {
         id    : id
     };
@@ -206,13 +208,11 @@ function updateReturnDate(dateText, event){
         returnDate: returnDate
     };
     var updateReturnDate = API.updateReturnDate(request);
-    setTimeout(function() {
-        updateReturnDate.done(function(data){
-            console.log(endpointName + '：' + updateReturnDate.status);
-            getBooks();
-            alert('返却日を更新しました。');
-        }).fail(function(data, textStatus, errorThrown) {
-            displayResponseError(endpointName, data, textStatus, errorThrown);
-        });
-    }, 500 );
+    updateReturnDate.done(function(data){
+        console.log(endpointName + '：' + updateReturnDate.status);
+        getBooks();
+        alert('返却日を更新しました。');
+    }).fail(function(data, textStatus, errorThrown) {
+        displayResponseError(endpointName, data, textStatus, errorThrown);
+    });
 }
