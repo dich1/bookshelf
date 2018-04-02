@@ -139,6 +139,7 @@ class Bookshelf < Sinatra::Application
     param :status, Integer, required: true
     register_book
     status 201
+    {}.to_json
     # status 409
   end
 
