@@ -290,3 +290,8 @@ img.ui-datepicker-trigger{
   display: none;
   z-index: 2
 }
+
+/* メモ */
+textarea {
+  border:none;
+}

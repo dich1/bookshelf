@@ -2,13 +2,25 @@ $(document).on('click', '.book_image', function(){
     $('#overlay, #book_detail').fadeIn();
     // FIXME 動的に詳細情報取得
     var bookDetailElement = '<div>'
-                          + '<h3>Yay, Page 1!</h3>'
+                          + '<form action="cgi-bin/formmail.cgi" method="post">'
+                          + '<textarea class="memo" name="" rows="31" cols="50"></textarea>'
+                          + '</form>'
                           + '</div>'
                           + '<div>'
-                          + '<h3>Yay, Page 2!</h3>'
+                          + '<form action="cgi-bin/formmail.cgi" method="post">'
+                          + '<textarea name="" rows="31" cols="50"></textarea>'
                           + '</div>'
                           + '<div>'
-                          + '<h3>Yay, Page 3!</h3>'
+                          + '<form action="cgi-bin/formmail.cgi" method="post">'
+                          + '<textarea name="" rows="31" cols="50"></textarea>'
+                          + '</div>'
+                          + '<div>'
+                          + '<form action="cgi-bin/formmail.cgi" method="post">'
+                          + '<textarea name="" rows="31" cols="50"></textarea>'
+                          + '</div>'
+                          + '<div>'
+                          + '<form action="cgi-bin/formmail.cgi" method="post">'
+                          + '<textarea name="" rows="31" cols="50"></textarea>'
                           + '</div>'
                           + '</div>';
     var bookDetail = document.getElementById('book_detail');
@@ -17,7 +29,7 @@ $(document).on('click', '.book_image', function(){
     bookDetail.insertAdjacentHTML('afterbegin', bookDetailElement);
     locateCenter();
     $(window).resize(locateCenter);
-    $('#book_detail').booklet();
+    setBooklet();
 });
 
 $('#overlay').click(function(event){
@@ -34,5 +46,13 @@ function locateCenter() {
     $('#book_detail').css({
         'left': ((w - cw) / 2) + 'px',
         'top': ((h - ch) / 2) + 'px'
+    });
+}
+
+function setBooklet() {
+    $('#book_detail').booklet({
+        name: "BookDetail",
+        width: 720,
+        height: 480
     });
 }
