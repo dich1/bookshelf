@@ -257,7 +257,7 @@ class Bookshelf < Sinatra::Application
       if params[:page] === 1
         offset = params[:page] - 1
       else
-        offset = prev_page * limit
+        offset = prev_page * PER_PAGE_LIMIT
       end
     end
     get_books(offset)
