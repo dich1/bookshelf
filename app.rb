@@ -49,6 +49,8 @@ class Bookshelf < Sinatra::Application
   # FINISHED = 2
   SAFEKEEPING = 2
 
+  PER_PAGE_LIMIT   = 10
+
   url = ENV['APP_ENV']
   if url.nil?
     url = 'http://localhost:4567'
@@ -103,13 +105,15 @@ class Bookshelf < Sinatra::Application
     "ok"
   end
 
+### Route ###
   get '/' do
     redirect to('index.html')
   end
 
   get '/api/books/' do
     param :status, Integer, required: false
-    get_books
+    param :page  , Integer, required: false
+    get_books_action
   end
 
   # get '/api/books/count/unread/' do
@@ -242,16 +246,40 @@ class Bookshelf < Sinatra::Application
   error do
     '500 server error'
   end
+### Route ###
 
-  def get_books
-    sql    = "SELECT * FROM books "
-    if params[:status]
-      sql << "WHERE status = " + params[:status].to_s
+### Controller ###
+  def get_books_action
+    if params[:page].nil?
+      offset = 0
+    else
+      prev_page   = params[:page] - 1
+      if params[:page] === 1
+        offset = params[:page] - 1
+      else
+        offset = prev_page * limit
+      end
     end
-    sql   << " ORDER BY created_at DESC LIMIT 10"
+    get_books(offset)
+  end
+### Controller ###
+
+### Model ###
+  def get_books(offset)
+    sql          = "SELECT * FROM books "
+    count_sql    = "SELECT COUNT(*) AS count FROM books "
+    unless params[:status].nil?
+      sql       << "WHERE status = " + params[:status].to_s
+      count_sql << "WHERE status = " + params[:status].to_s
+    end
+    sql         << " ORDER BY created_at DESC LIMIT "
+    sql         << offset.to_s + ', '
+    sql         << PER_PAGE_LIMIT.to_s
     puts sql
+    puts count_sql
     @client.xquery(sql).each {|row| @ary << row}
-    @hash["books"] = @ary
+    @hash["books"]   = @ary
+    @hash["records"] = @client.xquery(count_sql).first["count"];
     return @hash.to_json
   end
 
@@ -392,4 +420,5 @@ class Bookshelf < Sinatra::Application
     @hash = @client.xquery(sql, params[:id]).first
     return @hash
   end
+  ### Model ###
 end
