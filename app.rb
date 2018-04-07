@@ -26,8 +26,8 @@ class ImageUploader < CarrierWave::Uploader::Base
 end
 
 CarrierWave.configure do |config|
-  config.storage = :fog
-  config.fog_provider = 'fog/aws'
+  config.storage         = :fog
+  config.fog_provider    = 'fog/aws'
   config.fog_credentials = {
     provider:              'AWS',
     aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
@@ -44,12 +44,12 @@ class Bookshelf < Sinatra::Application
   helpers Sinatra::Param
 
   # UNREAD   = 0
-  PETITION   = 0
-  READING  = 1
+  PETITION         = 0
+  READING          = 1
   # FINISHED = 2
-  SAFEKEEPING = 2
+  SAFEKEEPING      = 2
 
-  PER_PAGE_LIMIT   = 10
+  PER_PAGE_LIMIT   = 20
 
   url = ENV['APP_ENV']
   if url.nil?
@@ -74,13 +74,13 @@ class Bookshelf < Sinatra::Application
     else
         require 'uri'
         uri = URI.parse(db_url)
-        ui = uri.userinfo.split(':')
+        ui  = uri.userinfo.split(':')
         { 
-          'host' => uri.host,
-          'port' => uri.port || 3306,
-          'database' => uri.path[1..-1],
-          'username' => ui.first,
-          'password' => ui.last,
+          'host'      => uri.host,
+          'port'      => uri.port || 3306,
+          'database'  => uri.path[1..-1],
+          'username'  => ui.first,
+          'password'  => ui.last,
           'reconnect' => true
         }
     end
@@ -253,7 +253,7 @@ class Bookshelf < Sinatra::Application
     if params[:page].nil?
       offset = 0
     else
-      prev_page   = params[:page] - 1
+      prev_page = params[:page] - 1
       if params[:page] === 1
         offset = params[:page] - 1
       else
@@ -420,5 +420,5 @@ class Bookshelf < Sinatra::Application
     @hash = @client.xquery(sql, params[:id]).first
     return @hash
   end
-  ### Model ###
+### Model ###
 end
