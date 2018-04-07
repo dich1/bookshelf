@@ -10,7 +10,7 @@ function retryable(retryCount, func) {
 window.addEventListener('load', function() {
     setTimeout(function(){
         retryable(3, () => { 
-            getBooks(null);
+            getBooks(null, null);
         }).catch(err => {
             alert('本一覧取得API失敗。通信状態を確認してください');
          });
@@ -29,26 +29,28 @@ function getStatusCount() {
     getBooksCountSafekeeping();
 }
 
-function getBooks(button) {
+function getBooks(status, page) {
     var endpointName = '本一覧取得API';
-    var status = button;
-    var request = null;
-    if (status != null) {
-        request = {
-            status    : status
-        };
+    var request = {};
+    if (status !== null) {
+        request['status'] = status;
+    }
+    if (page !== null) {
+        request['page']   = page;
     }
     var getBooks = API.getBooks(request);
     var books;
     getBooks.done(function(data){
         console.log(endpointName +  '：' + getBooks.status);
-        books = data.books;
+        books   = data.books;
+        records = data.records;
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });
     console.log(books);
     
     displayBooks(books);
+    setPagination(records);
 }
 
 function displayBooks(books) {
