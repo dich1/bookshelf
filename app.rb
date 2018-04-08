@@ -439,9 +439,9 @@ class Bookshelf < Sinatra::Application
   def delete_book
     bucket = Aws::S3::Resource.new(
         :region            => 'ap-northeast-1',
-        :access_key_id     => 'AKIAJ4DA6R6MQ4L4QSIA',
-        :secret_access_key => '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',
-    ).bucket('bookshelf-image')
+        :access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
+        :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY'],
+    ).bucket(ENV['S3_BUCKET_NAME'])
 
     target_book = get_book
 
