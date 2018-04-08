@@ -52,6 +52,17 @@ var API = (function() {
         });
     }
 
+    function getBookDetail(request) {
+        return $.ajax({
+            type    : 'GET',
+            url     : baseUrl + 'book/detail/',
+            dataType: 'json',
+            data    : request,
+            async   : false,
+            timeout : 10000
+        });
+    }
+
     function registerBook(request) {
         return $.ajax({
             type       : 'POST',
@@ -110,12 +121,23 @@ var API = (function() {
     }
 
     function updateReturnDate(request) {
-            return $.ajax({
+        return $.ajax({
             type    : 'PUT',
-            url     : baseUrl + '/book/return-date/',
+            url     : baseUrl + 'book/return-date/',
             dataType: 'json',
             data    : request,
             async   : false,
+            timeout : 10000
+        });
+    }
+
+    function updateBookDetail(request) {
+        return $.ajax({
+            type    : 'PUT',
+            url     : baseUrl + 'book/detail/',
+            dataType: 'json',
+            data    : request,
+            async   : true,
             timeout : 10000
         });
     }
@@ -136,12 +158,14 @@ var API = (function() {
         getBooksCountPetition   : getBooksCountPetition,
         getBooksCountReading    : getBooksCountReading,
         getBooksCountSafekeeping: getBooksCountSafekeeping,
+        getBookDetail           : getBookDetail,
         registerBook            : registerBook,
         updateBook              : updateBook,
         updateBookPetition      : updateBookPetition,
         updateBookReading       : updateBookReading,
         updateBookSafekeeping   : updateBookSafekeeping,
         updateReturnDate        : updateReturnDate,
+        updateBookDetail        : updateBookDetail,
         deleteBook              : deleteBook
     };
 })();
