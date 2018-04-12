@@ -1,3 +1,6 @@
+require 'rack/contrib'
+require 'uuid'
+require 'connection_pool'
 require 'sinatra/base'
 require 'sinatra/param'
 require 'sinatra/cross_origin'
@@ -7,7 +10,6 @@ require 'yaml'
 require 'carrierwave'
 require 'carrierwave/storage/fog'
 require 'aws-sdk'
-require 'fileutils'
 
 $filename
 
@@ -39,6 +41,7 @@ CarrierWave.configure do |config|
 end
 
 class Bookshelf < Sinatra::Application
+  $UUID = UUID.new
   enable :method_override
   set :show_exceptions, false
   helpers Sinatra::Param

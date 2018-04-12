@@ -8,9 +8,12 @@ gem 'rake'
 
 gem 'foreman'
 
-gem 'unicorn'
+gem 'rack'
+gem 'rack-contrib', '1.4.0'
 
-gem 'connection_pool', '~> 2.2'
+gem 'unicorn', '5.4.0'
+gem 'uuid'
+gem 'connection_pool', '2.2.1'
 
 gem "sinatra"
 gem "sinatra-param"
