@@ -13,7 +13,7 @@ end
 #  timeout 300
 #  listen 80
 #
-#  pid "#{@dir}tmp/pids/unicorn.pid" #pidを保存するファイル
+pid "#{@dir}tmp/pids/unicorn.pid" #pidを保存
 #
 # unicornは標準出力には何も吐かないのでログ出力をする
 stderr_path "#{@dir}log/unicorn.stderr.log"
