@@ -1,4 +1,4 @@
-# worker_processes 2
+worker_processes 2
 preload_app true
 
 after_fork do |server, worker|
