@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'rack/contrib'
 require 'uuid'
 require 'connection_pool'
