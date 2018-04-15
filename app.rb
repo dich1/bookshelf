@@ -45,7 +45,6 @@ end
 class Bookshelf < Sinatra::Application
   $UUID = UUID.new
 
-  helpers Util
   enable :method_override
   set :show_exceptions, false
   helpers Sinatra::Param
