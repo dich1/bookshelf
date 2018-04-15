@@ -12,6 +12,7 @@ require 'yaml'
 require 'carrierwave'
 require 'carrierwave/storage/fog'
 require 'aws-sdk'
+require File.expand_path './helpers.rb', __FILE__
 
 $filename
 
@@ -72,28 +73,12 @@ class Bookshelf < Sinatra::Application
     register Sinatra::CrossOrigin
     set :allow_methods, [:get, :post, :options, :put, :delete]
     set :public_folder, 'public'
-
-    db_url = ENV['CLEARDB_DATABASE_URL']
-    set :mysql_config, if db_url.nil?
-        YAML.load_file('database.yml')  
-    else
-        require 'uri'
-        uri = URI.parse(db_url)
-        ui  = uri.userinfo.split(':')
-        { 
-          'host'      => uri.host,
-          'port'      => uri.port || 3306,
-          'database'  => uri.path[1..-1],
-          'username'  => ui.first,
-          'password'  => ui.last,
-          'reconnect' => true
-        }
-    end
   end
 
   before do
     cross_origin
-    @client = Mysql2::Client.new(settings.mysql_config)
+    @client = connection
+    # @client = Mysql2::Client.new(settings.mysql_config)
     # @client = Mysql2::Client.new(YAML.load_file('database.yml'))[:development]
     @ary = Array.new
     @hash = Hash.new { |h, k| h[k] = [] }
