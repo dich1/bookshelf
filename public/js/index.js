@@ -139,7 +139,8 @@ function getBooksCountSafekeeping() {
 
 function updateBookPetition(id) {
     var endpointName = '申請中更新API'
-    // TODO 申請中の時は返却日をクリアにする
+    var dateText = '';
+    updateReturnDate(id, dateText);
     var request = {
         id    : id
     };
@@ -171,6 +172,8 @@ function updateBookReading(id) {
 
 function updateBookSafekeeping(id) {
     var endpointName = '保管中更新API';
+    var dateText = '';
+    updateReturnDate(id, dateText);
     var request = {
         id    : id
     };
@@ -205,9 +208,8 @@ function deleteBook(id) {
     });
 }
 
-function updateReturnDate(dateText, event){
+function updateReturnDate(id, dateText){
     var endpointName = '返却日更新API';
-    var id         = event.input[0].parentElement.parentElement.id
     var returnDate = dateText;
     var request = {
         id        : id,

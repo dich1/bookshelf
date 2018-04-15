@@ -10,12 +10,13 @@ function getNowYYYYMMDD(){
 
 function setDatepicker() {
     $.datepicker.setDefaults($.datepicker.regional["ja"]);
-    $.datepicker._gotoToday = function(id) {
-        var target = $(id);
+    $.datepicker._gotoToday = function(datepickerId) {
+        var target = $(datepickerId);
         var inst = this._getInst(target[0]);
-        var date = getNowYYYYMMDD();
-        this._setDate(inst,date);
-        updateReturnDate(date, inst);
+        var dateText = getNowYYYYMMDD();
+        this._setDate(inst, dateText);
+        var id = inst.input[0].parentElement.parentElement.id;
+        updateReturnDate(id, dateText);
         this._hideDatepicker();
     }
     $(".datepicker").datepicker({
@@ -26,7 +27,8 @@ function setDatepicker() {
         buttonImageOnly: true,
         showButtonPanel: true,
         onSelect: function(dateText, event){
-            updateReturnDate(dateText, event);
+            var id = event.input[0].parentElement.parentElement.id
+            updateReturnDate(id, dateText);
         },
         beforeShow: function(input) {
             setTimeout(function() {
@@ -50,8 +52,10 @@ function setDatepicker() {
                 $('<button>', {text: '返却',
                     click: function() {
                         $.datepicker._clearDate(instance.input);
+                        var id = instance.input.parentElement.parentElement.id;
+                        updateBookSafekeeping(id);
                     }
-                }).appendTo( buttonPane ).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');
+                }).appendTo(buttonPane).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');
             }, 1 );
         }
     });
@@ -65,5 +69,6 @@ function checkValidityDatepicker(id, status) {
 
 function setInvalidDatepicker(id) {
     var datepickerImg = document.getElementById(id).children[0].children[2];
+    // TODO 貸出中の時以外は返却日を指定できないようにする
     // pointer-events:none;、cursor:not-allowed;を設定
 }
