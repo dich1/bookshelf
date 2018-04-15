@@ -1,7 +1,7 @@
 const PER_PAGE_LIMIT = 20;
 var currentPage;
 
-function setPagination(records) {
+function setPagination(status, records) {
     pages = Math.ceil(records / PER_PAGE_LIMIT);
     if (records > PER_PAGE_LIMIT) {
         $('#paging').pagination({
@@ -12,15 +12,17 @@ function setPagination(records) {
             prevText: '<span aria-hidden="true">&laquo;</span>',
             nextText: '<span aria-hidden="true">&raquo;</span>',
             onPageClick: function (page, evt) {
-                showTargetBooks(page);
+                showTargetBooks(status, page);
             }
         });
+    } else {
+        $('#paging').hide();
     }
 }
 
-function showTargetBooks(page){
+function showTargetBooks(status, page){
     var pageId = '#page-' + page;
     $(pageId).show();
     currentPage = page;
-    getBooks(null, page);
+    getBooks(status, page);
 }

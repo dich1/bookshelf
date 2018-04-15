@@ -50,7 +50,7 @@ function getBooks(status, page) {
     console.log(books);
     
     displayBooks(books);
-    setPagination(records);
+    setPagination(status, records);
 }
 
 function displayBooks(books) {
