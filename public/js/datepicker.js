@@ -38,6 +38,8 @@ function setDatepicker() {
                     btn.unbind('click')
                     .bind('click', function () {
                         $.datepicker._clearDate(input);
+                        var id = input.parentElement.parentElement.id;
+                        updateBookSafekeeping(id);
                     });
                     btn.appendTo(buttonPane);
             }, 1 );

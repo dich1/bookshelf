@@ -75,13 +75,13 @@ function displayBooks(books) {
                                 + '<div class="book_image"><img src="' + image + '" alt=""></div>'
                                 + '<div class="book_detail"><div class="book_title">' + title + '</div>'
                                 + '<form name="update_status" action="">' 
-                                + '<div class="book_status ' + petition + '"><input type="button" name="book_petition" value="申請中" onclick="updateBookPetition(this);"></div>'
-                                + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="貸出中" onclick="updateBookReading(this);"></div>'
-                                + '<div class="book_status ' + safekeeping + '"><input type="button" name="book_safekeeping" value="保管中" onclick="updateBookSafekeeping(this);"></div>'
+                                + '<div class="book_status ' + petition + '"><input type="button" name="book_petition" value="申請中" onclick="updateBookPetition(' + id + ');"></div>'
+                                + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="貸出中" onclick="updateBookReading(' + id + ');"></div>'
+                                + '<div class="book_status ' + safekeeping + '"><input type="button" name="book_safekeeping" value="保管中" onclick="updateBookSafekeeping(' + id + ');"></div>'
                                 + '</form>'
                                 + '<form name="delete_book" action="">'
                                 + '<div class="book_delete">'
-                                + '<input type="button" name="submit_book_delete" value="削除する" onclick="deleteBook(this);"><img src="./images/icon_trash.png" alt="icon trash"></div>'
+                                + '<input type="button" name="submit_book_delete" value="削除する" onclick="deleteBook(' + id + ');"><img src="./images/icon_trash.png" alt="icon trash"></div>'
                                 + '</form>'
                                 + '</div></div>';
 
@@ -137,9 +137,9 @@ function getBooksCountSafekeeping() {
     });
 }
 
-function updateBookPetition(button) {
+function updateBookPetition(id) {
     var endpointName = '申請中更新API'
-    var id    = button.parentElement.parentElement.parentElement.parentElement.id;
+    // TODO 申請中の時は返却日をクリアにする
     var request = {
         id    : id
     };
@@ -153,9 +153,8 @@ function updateBookPetition(button) {
     });
 }
 
-function updateBookReading(button) {
+function updateBookReading(id) {
     var endpointName = '貸出中更新API';
-    var id = button.parentElement.parentElement.parentElement.parentElement.id;
     var request = {
         id    : id
     };
@@ -170,9 +169,8 @@ function updateBookReading(button) {
     });    
 }
 
-function updateBookSafekeeping(button) {
+function updateBookSafekeeping(id) {
     var endpointName = '保管中更新API';
-    var id = button.parentElement.parentElement.parentElement.parentElement.id;
     var request = {
         id    : id
     };
@@ -187,9 +185,8 @@ function updateBookSafekeeping(button) {
     });    
 }
 
-function deleteBook(button) {
+function deleteBook(id) {
     var endpointName = '本削除API';
-    var id = button.parentElement.parentElement.parentElement.parentElement.id;
     var request = {
         id    : id
     };
