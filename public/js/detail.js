@@ -29,9 +29,9 @@ function getBookDetail(id) {
     displayBookDetail(id, memo);
 }
 
-function displayBookDetail(bookId, memo) {
+function displayBookDetail(id, memo) {
     $('#overlay, #book_detail').fadeIn();
-    var bookDetailElement = createBookDetailElement(bookId, memo);
+    var bookDetailElement = createBookDetailElement(id, memo);
     var bookDetail = document.getElementById('book_detail');
     bookDetail.textContent = null;
     console.log(bookDetail);
@@ -39,9 +39,12 @@ function displayBookDetail(bookId, memo) {
     setBooklet();
 }
 
-function updateBookDetail(button) {
+function updateBookDetail(id) {
     var endpointName = '本詳細更新API';
-    var id   = button.parentElement.className;
+    // TODO 暫定：既存の詳細データが全て更新されたら削除
+    if (!isFinite(id)) {
+        id   = id.parentElement.className;
+    }
 
     var text = [];
     var memoElements = document.getElementsByClassName(id);
@@ -49,6 +52,7 @@ function updateBookDetail(button) {
         text[i] = memoElements[i].childNodes[0].value;
     }
 
+    // TODO テキストのみを保存できるようにする
     var memo = createBookDetailElement(id, text);
     console.log('本詳細エレメント' + memo);
 
@@ -64,17 +68,17 @@ function updateBookDetail(button) {
     });
 }
 
-function createBookDetailElement(bookId, text) {
+function createBookDetailElement(id, text) {
     // TODO 動的にページを増やせるようにする
-    var bookDetailElement;
+    var bookDetailElement = '';
     if (text === null || Array.isArray(text)) {
         var pages = (text === null) ? DEFAULT_DETAIL_PAGES : text.length;
         for (var i = 0; i < pages; i++) { 
-            var detailPage    = '<div class="' + bookId + '" >';
+            var detailPage    = '<div class="' + id + '" >';
             if (text === null) {
-                detailPage += '<textarea rows="17" cols="40" onblur="updateBookDetail(this);"></textarea>'; 
+                detailPage += '<textarea rows="17" cols="40" onblur="updateBookDetail(' + id + ');"></textarea>'; 
             } else {
-                detailPage += '<textarea rows="17" cols="40" onblur="updateBookDetail(this);">' + text[i] + '</textarea>';
+                detailPage += '<textarea rows="17" cols="40" onblur="updateBookDetail(' + id + ');">' + text[i] + '</textarea>';
             }
             detailPage += '</div>';
             bookDetailElement += detailPage;
