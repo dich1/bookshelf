@@ -87,7 +87,8 @@ class Bookshelf < Sinatra::Application
           'database'  => uri.path[1..-1],
           'username'  => ui.first,
           'password'  => ui.last,
-          'reconnect' => true
+          'reconnect' => true,
+          'pool'      => 10
         }
     end
   end
