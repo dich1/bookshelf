@@ -1,4 +1,4 @@
-const DEFAULT_DETAIL_PAGES = 4;
+const DEFAULT_DETAIL_PAGES = 6;
 
 $(document).on('click', '.book_image', function(){
     var bookId = event.path[2].id;
