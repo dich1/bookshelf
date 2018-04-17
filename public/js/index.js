@@ -7,6 +7,18 @@ function retryable(retryCount, func) {
     return promise;
 }
 
+function displayAlert(message) {
+    var coverElement = document.getElementById('cover');
+    var alertElement = document.getElementById('alert');
+    alertElement.textContent = message;
+    className = 'alert alert-warning';
+    alertElement.setAttribute('class', className);
+    $('#alert').fadeIn(1000);
+    setTimeout(function(){
+        $('#alert').fadeOut(1000);
+    }, 2000);
+}
+
 window.addEventListener('load', function() {
     setTimeout(function(){
         retryable(3, () => { 
@@ -164,7 +176,7 @@ function updateBookReading(id) {
         getBooks(null);
         getStatusCount();
         console.log(endpointName + '：' + updateBookReading.status);
-        alert('本を借りました。');
+        displayAlert('本を借りました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -182,7 +194,7 @@ function updateBookSafekeeping(id) {
         getBooks(null);
         getStatusCount();
         console.log(endpointName + '：' + updateBookSafekeeping.status);
-        alert('本を返却しました。');
+        displayAlert('本を返却しました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -219,7 +231,7 @@ function updateReturnDate(id, dateText){
     updateReturnDate.done(function(data){
         console.log(endpointName + '：' + updateReturnDate.status);
         getBooks(null);
-        alert('返却日を更新しました。');
+        displayAlert('返却日を更新しました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });

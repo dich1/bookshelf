@@ -96,11 +96,11 @@ header nav a {
 }
 .reading.active input,
 .reading input:hover {
-  background-color: #219ed2;
+  background-color: #1ca40a;
 }
 .safekeeping.active input,
 .safekeeping input:hover {
-  background-color: #1ca40a;
+  background-color: #219ed2;
 }
 .book_count {
   margin-top: 5px;
@@ -296,4 +296,11 @@ img.ui-datepicker-trigger{
 /* メモ */
 textarea {
   border:none;
+}
+
+/* アラート */
+.alert {
+  display: none;
+  position: fixed;
+  right: 0;
 }
