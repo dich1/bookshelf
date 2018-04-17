@@ -119,6 +119,7 @@ header nav a {
   text-align: center;
 }
 
+/* 本一覧ブロック */
 #main {
   width: 1200px;
   margin: 0 auto;
@@ -162,6 +163,7 @@ header nav a {
   max-height: 250px;
   /* 縦方向の揃え位置を指定 */
   vertical-align: middle;
+  cursor: pointer;
 }
 
 /*.book_item .book_detail {
