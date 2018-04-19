@@ -52,9 +52,17 @@ function updateBookDetail(id) {
         text[i] = memoElements[i].childNodes[0].value;
     }
 
-    // TODO テキストのみを保存できるようにする
     var memo = createBookDetailElement(id, text);
     console.log('本詳細エレメント' + memo);
+
+    var storage = sessionStorage;
+    var sessionElements = storage.getItem('memo');
+    if (storage.getItem('memo')) {
+        if (memo === sessionElements) {
+            return;
+        }
+    }
+    sessionStorage.setItem('memo', memo);
 
     var request = {
         id   : id,
