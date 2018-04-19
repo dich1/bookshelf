@@ -176,7 +176,7 @@ function updateBookReading(id) {
         getBooks(null);
         getStatusCount();
         console.log(endpointName + '：' + updateBookReading.status);
-        displayAlert('本を借りました。');
+        alert('本を借りました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -194,7 +194,7 @@ function updateBookSafekeeping(id) {
         getBooks(null);
         getStatusCount();
         console.log(endpointName + '：' + updateBookSafekeeping.status);
-        displayAlert('本を返却しました。');
+        alert('本を返却しました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -231,7 +231,7 @@ function updateReturnDate(id, dateText){
     updateReturnDate.done(function(data){
         console.log(endpointName + '：' + updateReturnDate.status);
         getBooks(null);
-        displayAlert('返却日を更新しました。');
+        alert('返却日を更新しました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });
