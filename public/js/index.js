@@ -7,17 +7,17 @@ function retryable(retryCount, func) {
     return promise;
 }
 
-function displayAlert(message) {
-    var coverElement = document.getElementById('cover');
-    var alertElement = document.getElementById('alert');
-    alertElement.textContent = message;
-    className = 'alert alert-warning';
-    alertElement.setAttribute('class', className);
-    $('#alert').fadeIn(1000);
-    setTimeout(function(){
-        $('#alert').fadeOut(1000);
-    }, 2000);
-}
+// function displayAlert(message) {
+//     var coverElement = document.getElementById('cover');
+//     var alertElement = document.getElementById('alert');
+//     alertElement.textContent = message;
+//     className = 'alert alert-warning';
+//     alertElement.setAttribute('class', className);
+//     $('#alert').fadeIn(1000);
+//     setTimeout(function(){
+//         $('#alert').fadeOut(1000);
+//     }, 2000);
+// }
 
 window.addEventListener('load', function() {
     setTimeout(function(){
