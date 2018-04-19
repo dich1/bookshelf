@@ -89,7 +89,7 @@ function displayBooks(books) {
                                 + '<form name="update_status" action="">' 
                                 + '<div class="book_status ' + petition + '"><input type="button" name="book_petition" value="申請中" onclick="updateBookPetition(' + id + ');"></div>'
                                 + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="貸出中" onclick="updateBookReading(' + id + ');"></div>'
-                                + '<div class="book_status ' + safekeeping + '"><input type="button" name="book_safekeeping" value="保管中" onclick="updateBookSafekeeping(' + id + ');"></div>'
+                                + '<div class="book_status ' + safekeeping + '"><input type="button" name="book_safekeeping" value="保管中" onclick="updateBookSafekeeping(' + id + ');updateReturnDate(' + id + ', &#39;&#39;)"></div>'
                                 + '</form>'
                                 + '<form name="delete_book" action="">'
                                 + '<div class="book_delete">'
@@ -185,7 +185,6 @@ function updateBookReading(id) {
 function updateBookSafekeeping(id) {
     var endpointName = '保管中更新API';
     var dateText = '';
-    updateReturnDate(id, dateText);
     var request = {
         id    : id
     };
