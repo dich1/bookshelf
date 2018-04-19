@@ -23,15 +23,10 @@ window.addEventListener('load', function() {
     setTimeout(function(){
         retryable(3, () => { 
             getBooks(null, null);
-        }).catch(err => {
-            alert('本一覧取得API失敗。通信状態を確認してください');
-         });
-        
-        retryable(3, () => { 
             getBooksCount();
         }).catch(err => {
-            alert('本ステータス取得API失敗。通信状態を確認してください');
-        });
+            alert('API通信失敗。通信状態の確認、またはしばらく経ってからアクセスしてください');
+         });
     }, 1000);
 });
 
