@@ -123,25 +123,17 @@ class Bookshelf < Sinatra::Application
     get_books_action
   end
 
+  get '/api/books/count/' do
+    get_books_count_action
+  end 
+
   # get '/api/books/count/unread/' do
   #   get_count_unread
   # end 
 
-  get '/api/books/count/petition/' do
-    get_count_petition
-  end 
-
-  get '/api/books/count/reading/' do
-    get_count_reading
-  end 
-
   # get '/api/books/count/finished/' do
   #   get_count_finished
   # end
-
-  get '/api/books/count/safekeeping/' do
-    get_count_safekeeping
-  end
 
   get '/api/book/detail/' do
     param :id    , Integer, required: true
@@ -290,6 +282,13 @@ class Bookshelf < Sinatra::Application
     end
     get_books(offset)
   end
+
+  def get_books_count_action
+    @hash['petition']    = get_count_petition['count']
+    @hash['reading']     = get_count_reading['count']
+    @hash['safekeeping'] = get_count_safekeeping['count']
+    @hash.to_json
+  end
 ### Controller ###
 
 ### Model ###
@@ -323,16 +322,16 @@ class Bookshelf < Sinatra::Application
     sql = "SELECT COUNT(*) as count 
              FROM books 
             WHERE status = ?"
-    @hash = @client.xquery(sql, PETITION).first
-    return @hash.to_json
+    hash = @client.xquery(sql, PETITION).first
+    return hash
   end
 
   def get_count_reading
     sql = "SELECT COUNT(*) as count 
              FROM books 
             WHERE status = ?"
-    @hash = @client.xquery(sql, READING).first
-    return @hash.to_json
+    hash = @client.xquery(sql, READING).first
+    return hash
   end
 
   # def get_count_finished
@@ -347,8 +346,8 @@ class Bookshelf < Sinatra::Application
     sql = "SELECT COUNT(*) as count 
              FROM books 
             WHERE status = ?"
-    @hash = @client.xquery(sql, SAFEKEEPING).first
-    return @hash.to_json
+    hash = @client.xquery(sql, SAFEKEEPING).first
+    return hash
   end
 
   def get_book_detail

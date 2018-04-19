@@ -28,17 +28,30 @@ window.addEventListener('load', function() {
          });
         
         retryable(3, () => { 
-            getStatusCount();
+            getBooksCount();
         }).catch(err => {
             alert('本ステータス取得API失敗。通信状態を確認してください');
         });
     }, 1000);
 });
 
-function getStatusCount() {
-    getBooksCountPetition();
-    getBooksCountReading();
-    getBooksCountSafekeeping();
+function getBooksCount() {
+    var endpointName = 'ステータス数取得API';
+    var getBooksCount = API.getBooksCount();
+    var petitionCount;
+    var readingCount;
+    var safekeepingCount;
+    getBooksCount.done(function(data){
+        console.log(endpointName + '：' + getBooksCount.status);
+        petitionCount    = data.petition;
+        readingCount     = data.reading;
+        safekeepingCount = data.safekeeping;
+        document.getElementById('books_petition').textContent = petitionCount;
+        document.getElementById('books_reading').textContent = readingCount;
+        document.getElementById('books_safekeeping').textContent = safekeepingCount;
+    }).fail(function(data, textStatus, errorThrown) {
+        displayResponseError(endpointName, data, textStatus, errorThrown);
+    });
 }
 
 function getBooks(status, page) {
@@ -110,45 +123,6 @@ function displayBooks(books) {
     setDatepicker();
 }
 
-function getBooksCountPetition() {
-    var endpointName = '申請中数取得API';
-    var getBooksCountPetition = API.getBooksCountPetition();
-    var count;
-    getBooksCountPetition.done(function(data){
-        console.log(endpointName + '：' + getBooksCountPetition.status);
-        count = data.count;
-        document.getElementById('books_petition').textContent = count;
-    }).fail(function(data, textStatus, errorThrown) {
-        displayResponseError(endpointName, data, textStatus, errorThrown);
-    });
-}
-
-function getBooksCountReading() {
-    var endpointName = '貸出中取得API'
-    var getBooksCountReading = API.getBooksCountReading();
-    var count;
-    getBooksCountReading.done(function(data){
-        console.log(endpointName + '：' + getBooksCountReading.status);
-        count = data.count;
-        document.getElementById('books_reading').textContent = count;
-    }).fail(function(data, textStatus, errorThrown) {
-        displayResponseError(endpointName, data, textStatus, errorThrown);
-    });
-}
-
-function getBooksCountSafekeeping() {
-    var endpointName = '保管中数取得API';
-    var getBooksCountSafekeeping = API.getBooksCountSafekeeping();
-    var count;
-    getBooksCountSafekeeping.done(function(data){
-        console.log(endpointName + '：' + getBooksCountSafekeeping.status);
-        count = data.count;
-        document.getElementById('books_safekeeping').textContent = count;
-    }).fail(function(data, textStatus, errorThrown) {
-        displayResponseError(endpointName, data, textStatus, errorThrown);
-    });
-}
-
 function updateBookPetition(id) {
     var endpointName = '申請中更新API'
     var dateText = '';
@@ -159,7 +133,7 @@ function updateBookPetition(id) {
     var updateBookPetition = API.updateBookPetition(request);
     updateBookPetition.done(function(data){
         getBooks(null);
-        getStatusCount();
+        getBooksCount();
         console.log(endpointName + '：' + updateBookPetition.status);
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
@@ -174,7 +148,7 @@ function updateBookReading(id) {
     var updateBookReading = API.updateBookReading(request);
     updateBookReading.done(function(data){
         getBooks(null);
-        getStatusCount();
+        getBooksCount();
         console.log(endpointName + '：' + updateBookReading.status);
         alert('本を借りました。');
     }).fail(function(data, textStatus, errorThrown) {
@@ -191,7 +165,7 @@ function updateBookSafekeeping(id) {
     var updateBookSafekeeping = API.updateBookSafekeeping(request);
     updateBookSafekeeping.done(function(data){
         getBooks(null);
-        getStatusCount();
+        getBooksCount();
         console.log(endpointName + '：' + updateBookSafekeeping.status);
         alert('本を返却しました。');
     }).fail(function(data, textStatus, errorThrown) {
@@ -213,7 +187,7 @@ function deleteBook(id) {
         // bookItem = document.getElementById(id);
         // bookItem.parentNode.removeChild(bookItem);
         getBooks(null);
-        getStatusCount();
+        getBooksCount();
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });

@@ -22,30 +22,10 @@ var API = (function() {
         });
     }
 
-    function getBooksCountPetition() {
+    function getBooksCount(request) {
         return $.ajax({
             type    : 'GET',
-            url     : baseUrl + 'books/count/petition/',
-            dataType: 'json',
-            async   : true,
-            timeout : 10000
-        });
-    }
-
-    function getBooksCountReading() {
-        return $.ajax({
-            type    : 'GET',
-            url     : baseUrl + 'books/count/reading/',
-            dataType: 'json',
-            async   : true,
-            timeout : 10000
-        });
-    }
-
-    function getBooksCountSafekeeping() {
-        return $.ajax({
-            type    : 'GET',
-            url     : baseUrl + 'books/count/safekeeping/',
+            url     : baseUrl + 'books/count/',
             dataType: 'json',
             async   : true,
             timeout : 10000
@@ -155,9 +135,7 @@ var API = (function() {
 
     return {
         getBooks                : getBooks,
-        getBooksCountPetition   : getBooksCountPetition,
-        getBooksCountReading    : getBooksCountReading,
-        getBooksCountSafekeeping: getBooksCountSafekeeping,
+        getBooksCount           : getBooksCount,
         getBookDetail           : getBookDetail,
         registerBook            : registerBook,
         updateBook              : updateBook,
