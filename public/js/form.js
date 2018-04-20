@@ -16,7 +16,8 @@ function registerBook(button) {
         alert(acceptExtensions.join(', ') + 'の拡張子で添付してください');
         return;
     }
-    var status = 0;
+    var selectIndex = document.forms.register_book.book_status.selectedIndex;
+    var status = document.forms.register_book.book_status.options[selectIndex].value;;
     var request = new FormData();
     request.append('title', title);
     request.append('image', imageFile, imageFile.name);

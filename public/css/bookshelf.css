@@ -226,7 +226,7 @@ footer {
   width: 400px;
   margin: 20px auto;
 }
-.form_book input {
+.form_book input, .form_book select {
   display: inline-block;
   margin-bottom: 0;
   vertical-align: middle;
@@ -236,7 +236,7 @@ footer {
   border: 1px solid #ddd;
   font-size: 18px; 
 }
-.form_book .book_image {
+.form_book .book_image, .form_book .book_status {
   margin-top: 5px;
 }
 .form_book .book_submit input {
@@ -399,7 +399,7 @@ textarea {
     width: 400px;
     margin: 20px auto;
   }
-  .form_book input {
+  .form_book input, .form_book select {
     display: inline-block;
     margin-bottom: 0;
     vertical-align: middle;
@@ -409,7 +409,7 @@ textarea {
     border: 1px solid #ddd;
     font-size: 18px; 
   }
-  .form_book .book_image {
+  .form_book .book_image, .form_book .book_status {
     margin-top: 5px;
   }
   .form_book .book_submit input {
@@ -575,7 +575,7 @@ textarea {
     width: 400px;
     margin: 20px auto;
   }
-  .form_book input {
+  .form_book input, .form_book select {
     display: inline-block;
     margin-bottom: 0;
     vertical-align: middle;
@@ -585,7 +585,7 @@ textarea {
     border: 1px solid #ddd;
     font-size: 18px; 
   }
-  .form_book .book_image {
+  .form_book .book_image, .form_book .book_status {
     margin-top: 5px;
   }
   .form_book .book_submit input {
