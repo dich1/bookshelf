@@ -9,6 +9,10 @@ $('#overlay').click(function(event){
     $('#overlay, #book_detail').fadeOut();
 });
 
+$(document).on('focus', '.memo', function(){
+    $('#book_detail').booklet('option', 'keyboard', false);
+});
+
 function getBookDetail(id) {
     var endpointName = '本詳細取得API';
     var request = {
@@ -41,10 +45,6 @@ function displayBookDetail(id, memo) {
 
 function updateBookDetail(id) {
     var endpointName = '本詳細更新API';
-    // TODO 暫定：既存の詳細データが全て更新されたら削除
-    if (!isFinite(id)) {
-        id   = id.parentElement.className;
-    }
 
     var text = [];
     var memoElements = document.getElementsByClassName(id);
@@ -84,9 +84,9 @@ function createBookDetailElement(id, text) {
         for (var i = 0; i < pages; i++) { 
             var detailPage    = '<div class="' + id + '" >';
             if (text === null) {
-                detailPage += '<textarea rows="17" cols="40" onblur="updateBookDetail(' + id + ');"></textarea>'; 
+                detailPage += '<textarea class="memo" rows="17" cols="40" onblur="updateBookDetail(' + id + ');"></textarea>'; 
             } else {
-                detailPage += '<textarea rows="17" cols="40" onblur="updateBookDetail(' + id + ');">' + text[i] + '</textarea>';
+                detailPage += '<textarea class="memo" rows="17" cols="40" onblur="updateBookDetail(' + id + ');">' + text[i] + '</textarea>';
             }
             detailPage += '</div>';
             bookDetailElement += detailPage;
