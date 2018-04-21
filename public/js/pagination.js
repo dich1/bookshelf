@@ -2,6 +2,7 @@ const PER_PAGE_LIMIT = 20;
 var currentPage;
 
 function setPagination(status, records) {
+    var pages = Math.ceil(records / PER_PAGE_LIMIT);
     $('#paging').pagination({
         items      : pages,
         itemOnPage : PER_PAGE_LIMIT,
@@ -13,7 +14,6 @@ function setPagination(status, records) {
             showTargetBooks(status, page);
         }
     });
-    pages = Math.ceil(records / PER_PAGE_LIMIT);
     if (records > PER_PAGE_LIMIT) {
         $('#paging').show();
     } else {
