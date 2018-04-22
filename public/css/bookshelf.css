@@ -253,18 +253,22 @@ footer {
 /* datepickerカーソル指定 */
 .set_datepicker {
   display: block;
+  /* 画像のマウスイベントを無効にするため親要素に指定 */
+  cursor: not-allowed;
+}
+.set_datepicker img {
+  /* デフォルトの画像要素を無効 */
+  pointer-events: none;
 }
 img.ui-datepicker-trigger{
-  /* デフォルト非表示 */
-  display: none;
-  cursor: pointer;
   margin-left: 7px!important;
   vertical-align: middle;
 }
 .set_datepicker_reading img {
-  /* 貸出中のみ表示 */
+  /* 貸出中のみイベントを有効 */
   display: inline;
   pointer-events: auto;
+  cursor: pointer;
 }
 
 .datepicker{
@@ -438,19 +442,23 @@ textarea {
   /* datepickerカーソル指定 */
   .set_datepicker {
     display: block;
+    /* 画像のマウスイベントを無効にするため親要素に指定 */
+    cursor: not-allowed;
+  }
+  .set_datepicker img {
+    /* デフォルトの画像要素を無効 */
+    pointer-events: none;
   }
   img.ui-datepicker-trigger{
-    /* デフォルト非表示 */
-    display: none;
-    cursor: pointer;
     margin-left: 7px!important;
     vertical-align: middle;
     width: 15%;
   }
   .set_datepicker_reading img {
-    /* 貸出中のみ表示 */
+    /* 貸出中のみイベントを有効 */
     display: inline;
     pointer-events: auto;
+    cursor: pointer;
   }
 
   .datepicker{
@@ -628,11 +636,14 @@ textarea {
   /* datepickerカーソル指定 */
   .set_datepicker {
     display: block;
+    /* 画像のマウスイベントを無効にするため親要素に指定 */
+    cursor: not-allowed;
+  }
+  .set_datepicker img {
+    /* デフォルトの画像要素を無効 */
+    pointer-events: none;
   }
   img.ui-datepicker-trigger{
-    /* デフォルト非表示 */
-    display: none;
-    cursor: pointer;
     margin-left: 5px!important;
     vertical-align: top;
     position: relative;
@@ -640,9 +651,10 @@ textarea {
     width: 13%;
   }
   .set_datepicker_reading img {
-    /* 貸出中のみ表示 */
+    /* 貸出中のみイベントを有効 */
     display: inline;
     pointer-events: auto;
+    cursor: pointer;
   }
 
   .datepicker{
