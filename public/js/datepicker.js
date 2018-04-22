@@ -27,7 +27,7 @@ function setDatepicker() {
         buttonImageOnly: true,
         showButtonPanel: true,
         onSelect: function(dateText, event){
-            var id = event.input[0].parentElement.parentElement.id
+            var id = event.input[0].parentElement.parentElement.parentElement.id
             updateReturnDate(id, dateText);
         },
         beforeShow: function(input) {
@@ -40,7 +40,7 @@ function setDatepicker() {
                     btn.unbind('click')
                     .bind('click', function () {
                         $.datepicker._clearDate(input);
-                        var id = input.parentElement.parentElement.id;
+                        var id = input.parentElement.parentElement.parentElement.id;
                         updateBookSafekeeping(id);
                     });
                     btn.appendTo(buttonPane);
@@ -52,7 +52,7 @@ function setDatepicker() {
                 $('<button>', {text: '返却',
                     click: function() {
                         $.datepicker._clearDate(instance.input);
-                        var id = instance.input.parentElement.parentElement.id;
+                        var id = instance.input.parentElement.parentElement.parentElement.id;
                         updateBookSafekeeping(id);
                     }
                 }).appendTo(buttonPane).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');

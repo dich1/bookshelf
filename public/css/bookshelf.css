@@ -246,17 +246,27 @@ footer {
   background-color: #1ca40a;
 }
 
-/* datepickerカーソル指定 */
-img.ui-datepicker-trigger{
-  cursor: pointer;
-  margin-left: 7px!important;
-  vertical-align: middle;
-}
-
 /* 返却日 */
 .return_date_title{
   color: #30B931;
 }
+/* datepickerカーソル指定 */
+.set_datepicker {
+  display: block;
+}
+img.ui-datepicker-trigger{
+  /* デフォルト非表示 */
+  display: none;
+  cursor: pointer;
+  margin-left: 7px!important;
+  vertical-align: middle;
+}
+.set_datepicker_reading img {
+  /* 貸出中のみ表示 */
+  display: inline;
+  pointer-events: auto;
+}
+
 .datepicker{
   text-align: center;
   background-color:transparent;
@@ -419,19 +429,19 @@ textarea {
     background-color: #1ca40a;
   }
 
-  /* datepickerカーソル指定 */
-  img.ui-datepicker-trigger{
-    cursor: pointer;
-    margin-left: 7px!important;
-    vertical-align: middle;
-    width: 15%;
-  }
-
   /* 返却日 */
   .return_date_title::after {
     content: "";
     clear: both;
     display: block;
+  }
+  /* datepickerカーソル指定 */
+  img.ui-datepicker-trigger{
+    /* デフォルト非表示 */
+    display: none;
+    margin-left: 7px!important;
+    vertical-align: middle;
+    width: 15%;
   }
 
   .datepicker{
@@ -595,16 +605,6 @@ textarea {
     background-color: #1ca40a;
   }
 
-  /* datepickerカーソル指定 */
-  img.ui-datepicker-trigger{
-    cursor: pointer;
-    margin-left: 5px!important;
-    vertical-align: top;
-    position: relative;
-    top:2px;
-    width: 13%;
-  }
-
   /* 返却日 */
   .return_date_title{
     font-size: 11px;
@@ -615,6 +615,16 @@ textarea {
     content: "";
     clear: both;
     display: block;
+  }
+  /* datepickerカーソル指定 */
+  img.ui-datepicker-trigger{
+    /* デフォルト非表示 */
+    display: none;
+    margin-left: 5px!important;
+    vertical-align: top;
+    position: relative;
+    top:2px;
+    width: 13%;
   }
 
   .datepicker{
