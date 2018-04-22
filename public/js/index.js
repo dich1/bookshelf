@@ -149,7 +149,7 @@ function updateBookReading(id) {
         getBooks(null);
         getBooksCount();
         console.log(endpointName + '：' + updateBookReading.status);
-        alert('本を借りました。');
+        alert('本を借りました。返却日を指定してください。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
