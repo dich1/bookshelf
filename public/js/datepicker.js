@@ -15,7 +15,7 @@ function setDatepicker() {
         var inst = this._getInst(target[0]);
         var dateText = getNowYYYYMMDD();
         this._setDate(inst, dateText);
-        var id = inst.input[0].parentElement.parentElement.id;
+        var id = inst.input[0].parentElement.parentElement.parentElement.id;
         updateReturnDate(id, dateText);
         this._hideDatepicker();
     }
