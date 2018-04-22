@@ -356,7 +356,7 @@ class Bookshelf < Sinatra::Application
             WHERE id = ?"
     @hash = @client.xquery(sql, params[:id]).first
     if @hash.nil?
-      return @hash
+      status 404
     end 
     return @hash.to_json
   end
