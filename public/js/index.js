@@ -133,6 +133,7 @@ function updateBookPetition(id) {
     updateBookPetition.done(function(data){
         getBooks(null);
         getBooksCount();
+        postMessageSlack(id, 0);
         console.log(endpointName + '：' + updateBookPetition.status);
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
@@ -150,6 +151,7 @@ function updateBookReading(id) {
         getBooksCount();
         console.log(endpointName + '：' + updateBookReading.status);
         alert('本を借りました。返却日を指定してください。');
+        postMessageSlack(id, 1);
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -167,6 +169,7 @@ function updateBookSafekeeping(id) {
         getBooksCount();
         console.log(endpointName + '：' + updateBookSafekeeping.status);
         alert('本を返却しました。');
+        postMessageSlack(id, 2);
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -204,7 +207,37 @@ function updateReturnDate(id, dateText){
         console.log(endpointName + '：' + updateReturnDate.status);
         getBooks(null);
         alert('返却日を更新しました。');
+        if (returnDate !== '') {postMessageSlack(id, returnDate)};
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
+    });
+}
+
+// FIXME railsにしたらサーバー側に実装する(内部にしかURLは公開していない)
+function postMessageSlack(id, data) {
+    var endpointName = 'slack投稿API';
+    var dataText   = (data === 0) ? '申請中' :
+                     (data === 1) ? '貸出中' : 
+                     (data === 2) ? '保管中' : data;
+    var bookName = document.getElementById(id).children[2].innerText.replace(/\r?\n/g, "");
+    var sendText;
+    if (isFinite(data)) {
+        sendText = bookName + 'が' + dataText + 'になりました。';
+    } else {
+        sendText = bookName + 'の返却予定日は' + dataText + 'になりました。';
+    }
+    var request = {
+        text      : sendText,
+        username  : 'お知らせ',
+        channel   : '#book',
+        icon_emoji: ':books:'
+    };
+    console.log(sendText);
+    var postMessageSlack = API.postMessageSlack(request);
+    postMessageSlack.done(function(data){
+        console.log(endpointName + '：' + postMessageSlack.status);
+    }).fail(function(data, textStatus, errorThrown) {
+        // TODO 送信は成功するがエラーで返ってしまう
+        // displayResponseError(endpointName, data, textStatus, errorThrown);
     });
 }

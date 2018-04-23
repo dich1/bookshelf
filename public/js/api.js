@@ -133,6 +133,18 @@ var API = (function() {
         });
     }
 
+    function postMessageSlack(request) {
+        var accsessUrl = 'https://hooks.slack.com/services/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';
+        return $.ajax({
+            type       : 'POST',
+            url        : accsessUrl,
+            dataType   : 'json',
+            data       : 'payload=' + JSON.stringify(request),
+            async      : true,
+            timeout    : 10000,
+        });
+    }    
+
     return {
         getBooks                : getBooks,
         getBooksCount           : getBooksCount,
@@ -144,6 +156,7 @@ var API = (function() {
         updateBookSafekeeping   : updateBookSafekeeping,
         updateReturnDate        : updateReturnDate,
         updateBookDetail        : updateBookDetail,
-        deleteBook              : deleteBook
+        deleteBook              : deleteBook,
+        postMessageSlack        : postMessageSlack
     };
 })();
