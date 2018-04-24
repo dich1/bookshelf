@@ -84,9 +84,9 @@ function createBookDetailElement(id, text) {
         for (var i = 0; i < pages; i++) { 
             var detailPage    = '<div class="' + id + '" >';
             if (text === null) {
-                detailPage += '<textarea class="memo" rows="17" cols="40" onblur="updateBookDetail(' + id + ');"></textarea>'; 
+                detailPage += '<textarea class="memo" rows="21" cols="44" onblur="updateBookDetail(' + id + ');"></textarea>'; 
             } else {
-                detailPage += '<textarea class="memo" rows="17" cols="40" onblur="updateBookDetail(' + id + ');">' + text[i] + '</textarea>';
+                detailPage += '<textarea class="memo" rows="21" cols="44" onblur="updateBookDetail(' + id + ');">' + text[i] + '</textarea>';
             }
             detailPage += '</div>';
             bookDetailElement += detailPage;
@@ -101,8 +101,8 @@ function createBookDetailElement(id, text) {
 function setBooklet() {
     $('#book_detail').booklet({
         name  : "BookDetail",
-        width : 720,
-        height: 480
+        width : 820,
+        height: 580
     });
     locateCenter();
 }
