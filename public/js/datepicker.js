@@ -60,15 +60,3 @@ function setDatepicker() {
         }
     });
 }
-
-function checkValidityDatepicker(id, status) {
-    if (status !== 1) {
-        setInvalidDatepicker(id);
-    }
-}
-
-function setInvalidDatepicker(id) {
-    var datepickerImg = document.getElementById(id).children[0].children[2];
-    // TODO 貸出中の時以外は返却日を指定できないようにする
-    // pointer-events:none;、cursor:not-allowed;を設定
-}
