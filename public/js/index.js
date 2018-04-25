@@ -69,11 +69,12 @@ function getBooks(status, page) {
     });
     console.log(books);
     
-    displayBooks(books);
+    var bookListElement = createBooksElements(books);
+    displayBooks(bookListElement);
     setPagination(status, records);
 }
 
-function displayBooks(books) {
+function createBooksElements(books) {
     var bookListElement = '';
     var imageBasePath = '//s3-ap-northeast-1.amazonaws.com/bookshelf-image/uploads/';
     if (books.length > 0) {
@@ -111,10 +112,14 @@ function displayBooks(books) {
 
             bookListElement += bookItemElement;
         });
-    } else {
-        bookListElement = '<h1 id="no_books" >本ありません</h1>'
-    }
-    
+
+        return bookListElement;
+    } 
+
+    return bookListElement = '<h1 id="no_books" >本ありません</h1>'
+}
+
+function displayBooks(bookListElement) {
     var bookList = document.getElementById('book_list');
     bookList.textContent = null;
     console.log(bookList);

@@ -91,11 +91,11 @@ function createBookDetailElement(id, text) {
             detailPage += '</div>';
             bookDetailElement += detailPage;
         }
-    } else {
-        bookDetailElement = text;
-    }
 
-    return bookDetailElement;
+        return bookDetailElement;
+    } 
+
+    return bookDetailElement = text;
 }
 
 function setBooklet() {
