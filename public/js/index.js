@@ -227,9 +227,9 @@ function postMessageSlack(id, data) {
     var bookName = document.getElementById(id).children[2].innerText.replace(/\r?\n/g, "");
     var sendText;
     if (isFinite(data)) {
-        sendText = bookName + 'が' + dataText + 'になりました。';
+        sendText = '【' + bookName + '】が' + dataText + 'になりました。';
     } else {
-        sendText = bookName + 'の返却予定日は' + dataText + 'になりました。';
+        sendText = '【' + bookName + '】の返却予定日は' + dataText + 'になりました。';
     }
     var request = {
         text      : sendText,

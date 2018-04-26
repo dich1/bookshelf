@@ -84,9 +84,9 @@ function createBookDetailElement(id, text) {
         for (var i = 0; i < pages; i++) { 
             var detailPage    = '<div class="' + id + '" >';
             if (text === null) {
-                detailPage += '<textarea class="memo" rows="21" cols="44" onblur="updateBookDetail(' + id + ');"></textarea>'; 
+                detailPage += '<textarea class="memo" rows="21" cols="45" onblur="updateBookDetail(' + id + ');"></textarea>'; 
             } else {
-                detailPage += '<textarea class="memo" rows="21" cols="44" onblur="updateBookDetail(' + id + ');">' + text[i] + '</textarea>';
+                detailPage += '<textarea class="memo" rows="21" cols="45" onblur="updateBookDetail(' + id + ');">' + text[i] + '</textarea>';
             }
             detailPage += '</div>';
             bookDetailElement += detailPage;
