@@ -46,7 +46,7 @@ function setDatepicker() {
                     btn.unbind('click')
                     .bind('click', function () {
                         var id = input.parentElement.parentElement.parentElement.id;
-                        var dateText = input.value;
+                        var dateText = getNowYYYYMMDD();
                         $.datepicker._clearDate(input);
                         updateBookSafekeeping(id);
                         postMessageSlack(id, 2, dateText);
@@ -60,10 +60,10 @@ function setDatepicker() {
                 $('<button>', {text: '返却',
                     click: function() {
                         var id = instance.input.parentElement.parentElement.parentElement.id;
-                        var dateNoneText = input.value;
+                        var dateText = getNowYYYYMMDD();
                         $.datepicker._clearDate(instance.input);
                         updateBookSafekeeping(id);
-                        postMessageSlack(id, 2, dateNoneText);
+                        postMessageSlack(id, 2, dateText);
                     }
                 }).appendTo(buttonPane).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');
             }, 1 );

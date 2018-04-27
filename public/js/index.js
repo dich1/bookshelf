@@ -171,7 +171,7 @@ function updateBookSafekeeping(id) {
         console.log(endpointName + '：' + updateBookSafekeeping.status);
         getBooks(null);
         getBooksCount();
-        var dateText = document.getElementById('233').children[0].children[1].children[0].value;
+        var dateText = getNowYYYYMMDD();
         postMessageSlack(id, 2, dateText);
         var dateNoneText = '';
         updateReturnDate(id, dateNoneText);
@@ -223,7 +223,7 @@ function postMessageSlack(id, status, date) {
     var bookName = document.getElementById(id).children[2].innerText.replace(/\r?\n/g, "");
     var sendText   = (status === 0) ? '【申請】\n書籍　　　:' + bookName + '\n申請理由　:' :
                      (status === 1) ? '【借入】\n書籍　　　:' + bookName + '\n返却予定日:' + date : 
-                     (status === 2) ? '【返却】\n書籍　　　:' + bookName + '\n返却予定日:%20' + date : '';
+                     (status === 2) ? '【返却】\n書籍　　　:' + bookName + '\n返却日　　:' + date : '';
     var request = {
         text      : sendText,
         username  : 'お知らせ',
