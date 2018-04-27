@@ -17,6 +17,8 @@ function setDatepicker() {
         this._setDate(inst, dateText);
         var id = inst.input[0].parentElement.parentElement.parentElement.id;
         updateReturnDate(id, dateText);
+        updateBookReading(id);
+        postMessageSlack(id, 1, dateText);
         this._hideDatepicker();
     }
     $(".datepicker").datepicker({
@@ -29,6 +31,10 @@ function setDatepicker() {
         onSelect: function(dateText, event){
             var id = event.input[0].parentElement.parentElement.parentElement.id
             updateReturnDate(id, dateText);
+            if (dateText !== '') {
+                updateBookReading(id);
+                postMessageSlack(id, 1, dateText);
+            }
         },
         beforeShow: function(input) {
             setTimeout(function() {
@@ -39,9 +45,11 @@ function setDatepicker() {
                 var btn = $('<button class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" type="button">返却</button>');
                     btn.unbind('click')
                     .bind('click', function () {
-                        $.datepicker._clearDate(input);
                         var id = input.parentElement.parentElement.parentElement.id;
+                        var dateText = input.value;
+                        $.datepicker._clearDate(input);
                         updateBookSafekeeping(id);
+                        postMessageSlack(id, 2, dateText);
                     });
                     btn.appendTo(buttonPane);
             }, 1 );
@@ -51,12 +59,18 @@ function setDatepicker() {
                 var buttonPane = $(instance).datepicker('widget').find('.ui-datepicker-buttonpane');
                 $('<button>', {text: '返却',
                     click: function() {
-                        $.datepicker._clearDate(instance.input);
                         var id = instance.input.parentElement.parentElement.parentElement.id;
+                        var dateNoneText = input.value;
+                        $.datepicker._clearDate(instance.input);
                         updateBookSafekeeping(id);
+                        postMessageSlack(id, 2, dateNoneText);
                     }
                 }).appendTo(buttonPane).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');
             }, 1 );
         }
     });
+}
+
+function openDatepicker(id) {
+    document.getElementById(id).children[0].children[1].children[1].click();
 }

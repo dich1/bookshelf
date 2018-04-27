@@ -101,7 +101,7 @@ function createBooksElements(books) {
                                 + '<div class="book_detail"><div class="book_title">' + title + '</div>'
                                 + '<form name="update_status" action="">' 
                                 + '<div class="book_status ' + petition + '"><input type="button" name="book_petition" value="申請中" onclick="updateBookPetition(' + id + ');"></div>'
-                                + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="貸出中" onclick="updateBookReading(' + id + ');"></div>'
+                                + '<div class="book_status ' + reading + '"><input type="button" name="book_reading" value="貸出中" onclick="openDatepicker(' + id + ');"></div>'
                                 + '<div class="book_status ' + safekeeping + '"><input type="button" name="book_safekeeping" value="保管中" onclick="updateBookSafekeeping(' + id + ');updateReturnDate(' + id + ', &#39;&#39;)"></div>'
                                 + '</form>'
                                 + '<form name="delete_book" action="">'
@@ -136,10 +136,10 @@ function updateBookPetition(id) {
     };
     var updateBookPetition = API.updateBookPetition(request);
     updateBookPetition.done(function(data){
+        console.log(endpointName + '：' + updateBookPetition.status);
         getBooks(null);
         getBooksCount();
         postMessageSlack(id, 0);
-        console.log(endpointName + '：' + updateBookPetition.status);
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });
@@ -152,11 +152,10 @@ function updateBookReading(id) {
     };
     var updateBookReading = API.updateBookReading(request);
     updateBookReading.done(function(data){
+        console.log(endpointName + '：' + updateBookReading.status);
         getBooks(null);
         getBooksCount();
-        console.log(endpointName + '：' + updateBookReading.status);
-        alert('本を借りました。返却日を指定してください。');
-        postMessageSlack(id, 1);
+        alert('本を借りました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -164,17 +163,19 @@ function updateBookReading(id) {
 
 function updateBookSafekeeping(id) {
     var endpointName = '保管中更新API';
-    var dateText = '';
     var request = {
         id    : id
     };
     var updateBookSafekeeping = API.updateBookSafekeeping(request);
     updateBookSafekeeping.done(function(data){
+        console.log(endpointName + '：' + updateBookSafekeeping.status);
         getBooks(null);
         getBooksCount();
-        console.log(endpointName + '：' + updateBookSafekeeping.status);
+        var dateText = document.getElementById('233').children[0].children[1].children[0].value;
+        postMessageSlack(id, 2, dateText);
+        var dateNoneText = '';
+        updateReturnDate(id, dateNoneText);
         alert('本を返却しました。');
-        postMessageSlack(id, 2);
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -211,26 +212,18 @@ function updateReturnDate(id, dateText){
     updateReturnDate.done(function(data){
         console.log(endpointName + '：' + updateReturnDate.status);
         getBooks(null);
-        alert('返却日を更新しました。');
-        if (returnDate !== '') {postMessageSlack(id, returnDate)};
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });
 }
 
 // FIXME railsにしたらサーバー側に実装する(内部にしかURLは公開していない)
-function postMessageSlack(id, data) {
+function postMessageSlack(id, status, date) {
     var endpointName = 'slack投稿API';
-    var dataText   = (data === 0) ? '申請中' :
-                     (data === 1) ? '貸出中' : 
-                     (data === 2) ? '保管中' : data;
     var bookName = document.getElementById(id).children[2].innerText.replace(/\r?\n/g, "");
-    var sendText;
-    if (isFinite(data)) {
-        sendText = '【' + bookName + '】が' + dataText + 'になりました。';
-    } else {
-        sendText = '【' + bookName + '】の返却予定日は' + dataText + 'になりました。';
-    }
+    var sendText   = (status === 0) ? '【申請】\n書籍　　　:' + bookName + '\n申請理由　:' :
+                     (status === 1) ? '【借入】\n書籍　　　:' + bookName + '\n返却予定日:' + date : 
+                     (status === 2) ? '【返却】\n書籍　　　:' + bookName + '\n返却予定日:%20' + date : '';
     var request = {
         text      : sendText,
         username  : 'お知らせ',
