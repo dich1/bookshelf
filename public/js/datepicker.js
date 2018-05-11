@@ -16,9 +16,9 @@ function setDatepicker() {
         var dateText = getNowYYYYMMDD();
         this._setDate(inst, dateText);
         var id = inst.input[0].parentElement.parentElement.parentElement.id;
+        postMessageSlack(id, 1, dateText);
         updateReturnDate(id, dateText);
         updateBookReading(id);
-        postMessageSlack(id, 1, dateText);
         this._hideDatepicker();
     }
     $(".datepicker").datepicker({
