@@ -32,8 +32,8 @@ function setDatepicker() {
             var id = event.input[0].parentElement.parentElement.parentElement.id
             updateReturnDate(id, dateText);
             if (dateText !== '') {
-                updateBookReading(id);
                 postMessageSlack(id, 1, dateText);
+                updateBookReading(id);
             }
         },
         beforeShow: function(input) {
@@ -48,8 +48,8 @@ function setDatepicker() {
                         var id = input.parentElement.parentElement.parentElement.id;
                         var dateText = getNowYYYYMMDD();
                         $.datepicker._clearDate(input);
-                        updateBookSafekeeping(id);
                         postMessageSlack(id, 2, dateText);
+                        updateBookSafekeeping(id);
                     });
                     btn.appendTo(buttonPane);
             }, 1 );
@@ -62,8 +62,8 @@ function setDatepicker() {
                         var id = instance.input.parentElement.parentElement.parentElement.id;
                         var dateText = getNowYYYYMMDD();
                         $.datepicker._clearDate(instance.input);
-                        updateBookSafekeeping(id);
                         postMessageSlack(id, 2, dateText);
+                        updateBookSafekeeping(id);
                     }
                 }).appendTo(buttonPane).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');
             }, 1 );
