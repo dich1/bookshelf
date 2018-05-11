@@ -30,11 +30,11 @@ function setDatepicker() {
         showButtonPanel: true,
         onSelect: function(dateText, event){
             var id = event.input[0].parentElement.parentElement.parentElement.id
-            updateReturnDate(id, dateText);
             if (dateText !== '') {
                 postMessageSlack(id, 1, dateText);
                 updateBookReading(id);
             }
+            updateReturnDate(id, dateText);
         },
         beforeShow: function(input) {
             setTimeout(function() {
