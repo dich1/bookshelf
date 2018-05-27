@@ -32,7 +32,7 @@ window.addEventListener('load', function() {
 
 function getBooksCount() {
     var endpointName = 'ステータス数取得API';
-    var getBooksCount = API.getBooksCount();
+    var getBooksCount = Api.getBooksCount();
     var petitionCount;
     var readingCount;
     var safekeepingCount;
@@ -58,7 +58,7 @@ function getBooks(status, page) {
     if (page !== null) {
         request['page']   = page;
     }
-    var getBooks = API.getBooks(request);
+    var getBooks = Api.getBooks(request);
     var books;
     getBooks.done(function(data){
         console.log(endpointName +  '：' + getBooks.status);
@@ -134,7 +134,7 @@ function updateBookPetition(id) {
     var request = {
         id    : id
     };
-    var updateBookPetition = API.updateBookPetition(request);
+    var updateBookPetition = Api.updateBookPetition(request);
     updateBookPetition.done(function(data){
         console.log(endpointName + '：' + updateBookPetition.status);
         getBooks(null);
@@ -150,7 +150,7 @@ function updateBookReading(id) {
     var request = {
         id    : id
     };
-    var updateBookReading = API.updateBookReading(request);
+    var updateBookReading = Api.updateBookReading(request);
     updateBookReading.done(function(data){
         console.log(endpointName + '：' + updateBookReading.status);
         getBooks(null);
@@ -166,7 +166,7 @@ function updateBookSafekeeping(id) {
     var request = {
         id    : id
     };
-    var updateBookSafekeeping = API.updateBookSafekeeping(request);
+    var updateBookSafekeeping = Api.updateBookSafekeeping(request);
     updateBookSafekeeping.done(function(data){
         console.log(endpointName + '：' + updateBookSafekeeping.status);
         getBooks(null);
@@ -189,7 +189,7 @@ function deleteBook(id) {
     if (!confirm('削除してもよろしいですか ?')) {
         return;
     };
-    var deleteBook = API.deleteBook(request);
+    var deleteBook = Api.deleteBook(request);
     deleteBook.done(function(data){
         console.log(endpointName + '：' + deleteBook.status);
         // bookItem = document.getElementById(id);
@@ -208,7 +208,7 @@ function updateReturnDate(id, dateText){
         id        : id,
         returnDate: returnDate
     };
-    var updateReturnDate = API.updateReturnDate(request);
+    var updateReturnDate = Api.updateReturnDate(request);
     updateReturnDate.done(function(data){
         console.log(endpointName + '：' + updateReturnDate.status);
         getBooks(null);
@@ -231,7 +231,7 @@ function postMessageSlack(id, status, date) {
         icon_emoji: ':books:'
     };
     console.log(sendText);
-    var postMessageSlack = API.postMessageSlack(request);
+    var postMessageSlack = Api.postMessageSlack(request);
     postMessageSlack.done(function(data){
         console.log(endpointName + '：' + postMessageSlack.status);
     }).fail(function(data, textStatus, errorThrown) {

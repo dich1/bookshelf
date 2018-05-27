@@ -1,4 +1,4 @@
-var API = (function() {
+var Api = (function() {
     var protocol = location.protocol;
     var host     = location.hostname ;
     var port     = location.port;

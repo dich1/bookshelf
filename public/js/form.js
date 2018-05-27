@@ -23,7 +23,7 @@ function registerBook(button) {
     request.append('image', imageFile, imageFile.name);
     request.append('status', status);
 
-    var registerBook = API.registerBook(request);
+    var registerBook = Api.registerBook(request);
     registerBook.done(function(data){
         console.log(endpointName + '：' + registerBook.status);
         alert('本を登録しました。');
@@ -45,11 +45,10 @@ function updateBook(button) {
         image : image,
         status: status
     };
-    var updateBook = API.updateBook(request);
+    var updateBook = Api.updateBook(request);
     updateBook.done(function(data){
         console.log(updateBook.status);
     }).fail(function(data, textStatus, errorThrown) {
-        console.log(updateBook.status);
-        console.log(data, textStatus, errorThrown);
+        displayResponseError(endpointName, data, textStatus, errorThrown);
     });
 }

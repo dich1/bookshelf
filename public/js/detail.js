@@ -18,7 +18,7 @@ function getBookDetail(id) {
     var request = {
         id   : id,
     };
-    var getBookDetail = API.getBookDetail(request);
+    var getBookDetail = Api.getBookDetail(request);
     var memo;
     getBookDetail.done(function(data){
         console.log(endpointName + '：' + getBookDetail.status);
@@ -68,7 +68,7 @@ function updateBookDetail(id) {
         id   : id,
         memo : memo
     };
-    var updateBookDetail = API.updateBookDetail(request);
+    var updateBookDetail = Api.updateBookDetail(request);
     updateBookDetail.done(function(data){
         console.log(endpointName + '：' + updateBookDetail.status);
     }).fail(function(data, textStatus, errorThrown) {
