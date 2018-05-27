@@ -7,17 +7,17 @@ function retryable(retryCount, func) {
     return promise;
 }
 
-// function displayAlert(message) {
-//     var coverElement = document.getElementById('cover');
-//     var alertElement = document.getElementById('alert');
-//     alertElement.textContent = message;
-//     className = 'alert alert-warning';
-//     alertElement.setAttribute('class', className);
-//     $('#alert').fadeIn(1000);
-//     setTimeout(function(){
-//         $('#alert').fadeOut(1000);
-//     }, 2000);
-// }
+function displayAlert(message) {
+    var coverElement = document.getElementById('cover');
+    var alertElement = document.getElementById('alert');
+    alertElement.textContent = message;
+    className = 'alert alert-warning';
+    alertElement.setAttribute('class', className);
+    $('#alert').fadeIn(1000);
+    setTimeout(function(){
+        $('#alert').fadeOut(1000);
+    }, 2000);
+}
 
 window.addEventListener('load', function() {
     setTimeout(function(){
@@ -155,7 +155,7 @@ function updateBookReading(id) {
         console.log(endpointName + '：' + updateBookReading.status);
         getBooks(null);
         getBooksCount();
-        alert('本を借りました。');
+        displayAlert('本を借りました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -175,7 +175,7 @@ function updateBookSafekeeping(id) {
         postMessageSlack(id, 2, dateText);
         var dateNoneText = '';
         updateReturnDate(id, dateNoneText);
-        alert('本を返却しました。');
+        displayAlert('本を返却しました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    

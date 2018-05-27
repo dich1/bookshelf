@@ -313,11 +313,11 @@ textarea {
 }
 
 /* アラート */
-/*.alert {
+.alert {
   display: none;
   position: fixed;
   right: 0;
-}*/
+}
 
 /* ページネーション */
 #paging {
