@@ -169,10 +169,10 @@ function updateBookSafekeeping(id) {
     var updateBookSafekeeping = Api.updateBookSafekeeping(request);
     updateBookSafekeeping.done(function(data){
         console.log(endpointName + '：' + updateBookSafekeeping.status);
-        getBooks(null);
-        getBooksCount();
         var dateText = getNowYYYYMMDD();
         postMessageSlack(id, 2, dateText);
+        getBooks(null);
+        getBooksCount();
         var dateNoneText = '';
         updateReturnDate(id, dateNoneText);
         displayAlert('本を返却しました。');
