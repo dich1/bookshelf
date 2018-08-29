@@ -167,10 +167,10 @@ function updateBookSafekeeping(id) {
         id    : id
     };
     var updateBookSafekeeping = Api.updateBookSafekeeping(request);
+    var dateText = getNowYYYYMMDD();
+    postMessageSlack(id, 2, dateText);
     updateBookSafekeeping.done(function(data){
         console.log(endpointName + '：' + updateBookSafekeeping.status);
-        var dateText = getNowYYYYMMDD();
-        postMessageSlack(id, 2, dateText);
         getBooks(null);
         getBooksCount();
         var dateNoneText = '';
