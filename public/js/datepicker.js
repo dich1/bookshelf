@@ -58,10 +58,8 @@ function setDatepicker() {
                 var buttonPane = $(instance).datepicker('widget').find('.ui-datepicker-buttonpane');
                 $('<button>', {text: '返却',
                     click: function() {
-                        var id = instance.input.parentElement.parentElement.parentElement.id;
-                        var dateText = getNowYYYYMMDD();
+                        var id = instance.input[0].parentElement.parentElement.parentElement.id;
                         $.datepicker._clearDate(instance.input);
-                        postMessageSlack(id, 2, dateText);
                         updateBookSafekeeping(id);
                     }
                 }).appendTo(buttonPane).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');
