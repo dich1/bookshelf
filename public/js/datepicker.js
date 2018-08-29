@@ -48,7 +48,6 @@ function setDatepicker() {
                         var id = input.parentElement.parentElement.parentElement.id;
                         var dateText = getNowYYYYMMDD();
                         $.datepicker._clearDate(input);
-                        postMessageSlack(id, 2, dateText);
                         updateBookSafekeeping(id);
                     });
                     btn.appendTo(buttonPane);
