@@ -41,30 +41,8 @@ function setDatepicker() {
                 var buttonPane = $(input)
                     .datepicker('widget')
                     .find('.ui-datepicker-buttonpane');
-
-                var btn = $('<button class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" type="button">返却</button>');
-                    btn.unbind('click')
-                    .bind('click', function () {
-                        var id = input.parentElement.parentElement.parentElement.id;
-                        var dateText = getNowYYYYMMDD();
-                        $.datepicker._clearDate(input);
-                        updateBookSafekeeping(id);
-                    });
-                    btn.appendTo(buttonPane);
             }, 1 );
         },
-        onChangeMonthYear: function(year, month, instance) {
-            setTimeout(function() {
-                var buttonPane = $(instance).datepicker('widget').find('.ui-datepicker-buttonpane');
-                $('<button>', {text: '返却',
-                    click: function() {
-                        var id = instance.input[0].parentElement.parentElement.parentElement.id;
-                        $.datepicker._clearDate(instance.input);
-                        updateBookSafekeeping(id);
-                    }
-                }).appendTo(buttonPane).addClass('ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all');
-            }, 1 );
-        }
     });
 }
 
