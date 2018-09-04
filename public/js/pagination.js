@@ -1,7 +1,7 @@
 const PER_PAGE_LIMIT = 20;
 var currentPage;
 
-function setPagination(status, records) {
+function setPagination(status, records, keyword) {
     var pages = Math.ceil(records / PER_PAGE_LIMIT);
     $('#paging').pagination({
         items      : pages,
@@ -11,7 +11,7 @@ function setPagination(status, records) {
         prevText   : '<span aria-hidden="true">&laquo;</span>',
         nextText   : '<span aria-hidden="true">&raquo;</span>',
         onPageClick: function (page, evt) {
-            showTargetBooks(status, page);
+            showTargetBooks(status, page, keyword);
         }
     });
     if (records > PER_PAGE_LIMIT) {
@@ -21,9 +21,9 @@ function setPagination(status, records) {
     }
 }
 
-function showTargetBooks(status, page){
+function showTargetBooks(status, page, keyword){
     var pageId = '#page-' + page;
     $(pageId).show();
     currentPage = page;
-    getBooks(status, page);
+    getBooks(status, page, keyword);
 }

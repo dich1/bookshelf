@@ -22,7 +22,7 @@ function displayAlert(message) {
 window.addEventListener('load', function() {
     setTimeout(function(){
         retryable(3, () => { 
-            getBooks(null, null);
+            getBooks(null, null, null);
             getBooksCount();
         }).catch(err => {
             alert('API通信失敗。通信状態の確認、またはしばらく経ってからアクセスしてください');
@@ -46,14 +46,25 @@ function getBooksCount() {
     });
 }
 
-function getBooks(status, page) {
+$(document).ready(function() {
+    $("#form_book_title").keyup(function() {
+        var keyword = $(this).val();
+        getBooks(null, 1, keyword);
+    });
+});
+
+
+function getBooks(status, page, keyword) {
     var endpointName = '本一覧取得API';
     var request = {};
     if (status !== null) {
-        request['status'] = status;
+        request['status']    = status;
     }
     if (page !== null) {
-        request['page']   = page;
+        request['page']      = page;
+    }
+    if (keyword !== null) {
+        request['keyword']   = keyword;
     }
     var getBooks = Api.getBooks(request);
     var books;
@@ -68,7 +79,7 @@ function getBooks(status, page) {
     
     var bookListElement = createBooksElements(books);
     displayBooks(bookListElement);
-    setPagination(status, records);
+    setPagination(status, records, keyword);
 }
 
 function createBooksElements(books) {

@@ -118,8 +118,9 @@ class Bookshelf < Sinatra::Application
   end
 
   get '/api/books/' do
-    param :status, Integer, required: false
-    param :page  , Integer, required: false
+    param :status , Integer, required: false
+    param :page   , Integer, required: false
+    param :keyword, String,  required: false
     get_books_action
   end
 
@@ -293,11 +294,15 @@ class Bookshelf < Sinatra::Application
 
 ### Model ###
   def get_books(offset)
-    sql          = "SELECT * FROM books "
-    count_sql    = "SELECT COUNT(*) AS count FROM books "
+    sql          = "SELECT * FROM books WHERE 1=1 "
+    count_sql    = "SELECT COUNT(*) AS count FROM books WHERE 1=1 "
     unless params[:status].nil?
-      sql       << "WHERE status = " + params[:status].to_s
-      count_sql << "WHERE status = " + params[:status].to_s
+      sql       << "AND status = " + params[:status].to_s
+      count_sql << "AND status = " + params[:status].to_s
+    end
+    unless params[:keyword].nil?
+      sql       << "AND title LIKE '%" + params[:keyword].to_s + "%'"
+      count_sql << "AND title LIKE '%" + params[:keyword].to_s + "%'"
     end
     sql         << " ORDER BY created_at DESC LIMIT "
     sql         << offset.to_s + ', '
