@@ -49,7 +49,9 @@ function getBooksCount() {
 $(document).ready(function() {
     $("#form_book_title").keyup(function() {
         var keyword = $(this).val();
-        getBooks(null, 1, keyword);
+        setTimeout(function(){
+            getBooks(null, 1, keyword);
+        }, 1000);
     });
 });
 
