@@ -94,7 +94,7 @@ function createBooksElements(books) {
             var image       = imageBasePath + book.image;
             var status      = book.status;
             var return_date = (status !== 1)     ? ''                   :
-                              (book.return_date) ? book.return_date     : '返却日未定';
+                              (book.return_date) ? book.return_date     : '読了日未定';
             var reading     = (status === 1)     ? 'reading active'     : 'reading';
             var safekeeping = (status === 2)     ? 'safekeeping active' : 'safekeeping';
 
