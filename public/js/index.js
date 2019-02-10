@@ -147,7 +147,7 @@ function updateBookPetition(id) {
         console.log(endpointName + '：' + updateBookPetition.status);
         getBooks(null);
         getBooksCount();
-        postMessageSlack(id, 0);
+        // postMessageSlack(id, 0);
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });
@@ -163,7 +163,7 @@ function updateBookReading(id) {
         console.log(endpointName + '：' + updateBookReading.status);
         getBooks(null);
         getBooksCount();
-        displayAlert('本を借りました。');
+        displayAlert('本を読み始めました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
@@ -176,14 +176,14 @@ function updateBookSafekeeping(id) {
     };
     var updateBookSafekeeping = Api.updateBookSafekeeping(request);
     var dateText = getNowYYYYMMDD();
-    postMessageSlack(id, 2, dateText);
+    // postMessageSlack(id, 2, dateText);
     updateBookSafekeeping.done(function(data){
         console.log(endpointName + '：' + updateBookSafekeeping.status);
         getBooks(null);
         getBooksCount();
         var dateNoneText = '';
         updateReturnDate(id, dateNoneText);
-        displayAlert('本を返却しました。');
+        displayAlert('本を読み終えました。');
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
     });    
