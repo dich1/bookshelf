@@ -101,7 +101,7 @@ function createBooksElements(books) {
             var datepickerElement = (status === 1) ? '<div class="set_datepicker_reading">' : '<div class="set_datepicker">';
             var bookItemElement = '<div id="' + id + '" class="book_item">'
                                 + '<form class="form_datepicker" name="update_return_date" action="">'
-                                + '<small class="return_date_title">返却予定日</small>'
+                                + '<small class="return_date_title">読了予定日</small>'
                                 + datepickerElement
                                 + '<input class="datepicker" type="text" name="book_return_date" value="' + return_date + '" readonly="readonly">' 
                                 + '</div>'
