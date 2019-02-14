@@ -70,6 +70,7 @@ function updateBookDetail(id) {
     };
     var updateBookDetail = Api.updateBookDetail(request);
     updateBookDetail.done(function(data){
+        resizeTextarea();
         console.log(endpointName + '：' + updateBookDetail.status);
     }).fail(function(data, textStatus, errorThrown) {
         displayResponseError(endpointName, data, textStatus, errorThrown);
@@ -99,11 +100,15 @@ function createBookDetailElement(id, text) {
 }
 
 function setBooklet() {
+    const ratio = 0.8;
+    let w = $(window).width() * ratio;
+    let h = $(window).height()* ratio;
     $('#book_detail').booklet({
         name  : "BookDetail",
-        width : 820,
-        height: 580
+        width : w,
+        height: h
     });
+    resizeTextarea();
     locateCenter();
 }
 
@@ -118,4 +123,12 @@ function locateCenter() {
         'left': ((w - cw) / 2) + 'px',
         'top': ((h - ch) / 2) + 'px'
     });
+}
+
+function resizeTextarea(){
+    let w = ($('#book_detail').width() / 2) - 76;
+    let h = $('#book_detail').height() - 76;
+    $('#book_detail textarea').width(w);
+    $('#book_detail textarea').height(h);
+
 }
