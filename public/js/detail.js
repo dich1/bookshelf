@@ -126,8 +126,8 @@ function locateCenter() {
 }
 
 function resizeTextarea(){
-    let w = ($('#book_detail').width() / 2) - 76;
-    let h = $('#book_detail').height() - 76;
+    let w = ($('#book_detail').width() / 2) * 0.9;
+    let h = $('#book_detail').height() * 0.85;
     $('#book_detail textarea').width(w);
     $('#book_detail textarea').height(h);
 
